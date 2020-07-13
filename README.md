@@ -7,6 +7,7 @@ Run step:
 `npm start`
 
 # Chat
+`cd chat`
 
 Installation Steps:
 `npm i`
@@ -14,4 +15,5 @@ Installation Steps:
 Run step:
 `node server.js`
 
-Browser url: http://localhost:3000
+## Browser url:
+http://localhost:3000
