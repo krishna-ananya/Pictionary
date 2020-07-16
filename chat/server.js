@@ -45,6 +45,11 @@ io.on('connection', (socket) => {
         rooms[room].users[socket.id] = name
         socket.to(room).broadcast.emit('user-connected', name)
     })
+    socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action)=>{
+        //console.log(clickX);
+        //console.log(clickY);
+        socket.to(room).broadcast.emit('redraw', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
+    })
     socket.on('send-chat-message', (room, message)=>{
         socket.to(room).broadcast.emit('chat-message', {message: message , name: rooms[room].users[socket.id]})
     })
