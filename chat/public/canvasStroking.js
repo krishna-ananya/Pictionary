@@ -32,7 +32,7 @@ function clearCanvas(){
     clickX = [];
     clickY = [];
     clickDrag = [];
-    context.clearRect(0, 0, 1000, 800);
+    context.clearRect(0, 0, 1200, 700);
    // copyContext.clearRect(0, 0, 400, 400);
 }
 /**
