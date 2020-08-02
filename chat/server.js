@@ -12,7 +12,8 @@ const rooms = {}
 
 //default app route when no rooms availbale or when server started
 app.get('/', (req,res)=>{
-    res.render('index', { rooms : rooms})
+    let count = Object.keys(rooms).length
+    res.render('index', { rooms : rooms, roomCount: count})
 })
 
 //app route to create new room 
@@ -48,6 +49,7 @@ io.on('connection', (socket) => {
         rooms[room].users[socket.id] = name
         socket.to(room).broadcast.emit('user-connected', name)
     })
+    // socket.on()
     socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action)=>{
         //console.log(clickX);
         //console.log(clickY);
