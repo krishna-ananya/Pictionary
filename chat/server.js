@@ -20,7 +20,10 @@ app.post('/room', (req, res)=>{
     if(rooms[req.body.room]!=null){
         return res.redirect('/')
     }
-    rooms[req.body.room] = { users: {}}
+    rooms[req.body.room] = { users: {} , password: req.body.password, timer: req.body.timer, players : req.body.players}
+    console.log(rooms)
+    console.log(Object.keys(rooms).length);
+
     res.redirect(req.body.room)
     io.emit('room-created', req.body.room)
 })
