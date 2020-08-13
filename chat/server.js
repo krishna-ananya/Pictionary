@@ -33,8 +33,8 @@ app.post('/room', (req, res)=>{
     if(rooms[req.body.room]!=null){
         return res.redirect('/')
     }
-    rooms[req.body.room] = { users: {}, drawers : [], guessers: [] , password: req.body.password, timer: req.body.timer, players : req.body.players, drawerCount:0}
-    
+    rooms[req.body.room] = { users: {}, drawer : [], guessers: [] , password: req.body.password, timer: req.body.timer, players : req.body.players, drawerCount:0}
+    // console.log(rooms[req.body.room])
     res.redirect(req.body.room)
     io.emit('room-created', req.body.room)
 })
@@ -64,13 +64,15 @@ io.on('connection', (socket) => {
     socket.on('new-user', (room, name) => {
         socket.join(room)
         rooms[room].users[socket.id] = name
+        // console.log(rooms[room])
         //if user is the first one to join the room
         if(rooms[room].drawer.length === 0){
             rooms[room].drawer.push(socket.id)
-            socket.to(room).emit('drawer', {room:room, user: room.drawer[0], guessWord:newWord()})
+            console.log("emitting drawer")
         } else {
             rooms[room].guessers.push(socket.id)
         }
+        socket.to(room).broadcast.emit('drawer', rooms[room].drawer[0])
         socket.to(room).broadcast.emit('user-connected', name)
     })
     

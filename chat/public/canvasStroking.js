@@ -156,5 +156,5 @@ function removeRaceHandlers() {
     canvas.removeEventListener('touchstart', touchWins);
 }
 
-canvas.addEventListener('mousedown', mouseWins);
-canvas.addEventListener('touchstart', touchWins);
+// canvas.addEventListener('mousedown', mouseWins);
+// canvas.addEventListener('touchstart', touchWins);

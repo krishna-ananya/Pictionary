@@ -119,7 +119,13 @@ socket.on('chat-message', data => {
 
 //end point for user connection
 socket.on('user-connected', name => {
+  alert("accepting user") 
   appendMessage(`${name} connected`)
+})
+
+socket.on('drawer', data => {
+  alert("accepting drawer")
+  console.log(data)
 })
 
 //end point for user disconnect or closing the window
