@@ -10,16 +10,16 @@ if(clearControllerForm != null){
   console.log("clearing form")
   clearControllerForm.addEventListener('click', e => {
     clearCanvas()
-    socket.emit('clear-canvas', roomName ,"clear")
+    socket.emit('clear-canvas', roomName, clickX, clickY, clickDrag ,"clear")
   })
 }
 if (canvasControllerForm != null) {
   console.log("canvas created")
   canvasControllerForm.addEventListener('mouseup', e => {
     e.preventDefault()
-    console.log("client side: "+clickX)
-    console.log("client side: "+clickY)
-    console.log("client side: "+clickDrag)
+    //console.log("client side: "+clickX)
+    //console.log("client side: "+clickY)
+    //console.log("client side: "+clickDrag)
     socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup")
   })
 }
@@ -54,19 +54,22 @@ serverClickY = [];
 serverClickDrag = [];
 
 socket.on('clear',data => {
-  serverClickX = [];
-  serverClickY = [];
-  serverClickDrag = [];
-  clickX = [];
-  clickY = [];
-  clickDrag = [];
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+  serverClickX.splice(0, serverClickX.length)
+  serverClickY.splice(0, serverClickY.length)
+  serverClickDrag.splice(0, serverClickDrag.length)
+  
+  clickX.splice(0, clickX.length);
+  clickY.splice(0, clickY.length);
+  clickDrag.splice(0, clickDrag.length);
+
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+  context.beginPath()
 })
 
 socket.on('redraw', data => {
-      clickX = [];
-      clickY = [];
-      clickDrag = [];
+      clickX.splice(0, clickX.length);
+      clickY.splice(0, clickY.length);
+      clickDrag.splice(0, clickDrag.length);
       var tX =[];var tY =[]; var tDrag = [];
       var lClickX = [];
       var lClickY = [];

@@ -29,10 +29,11 @@ function addClick(x, y, dragging) {
  * Clear the Canvas
  */
 function clearCanvas(){
-    clickX = [];
-    clickY = [];
-    clickDrag = [];
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    clickX.splice(0, clickX.length)
+    clickY.splice(0, clickY.length)
+    clickDrag.splice(0, clickDrag.length)
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+    context.beginPath()
 }
 /**
  * Redraw the complete canvas.
