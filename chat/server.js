@@ -22,8 +22,8 @@ app.post('/room', (req, res)=>{
         return res.redirect('/')
     }
     rooms[req.body.room] = { users: {} , password: req.body.password, timer: req.body.timer, players : req.body.players}
-    console.log(rooms)
-    console.log(Object.keys(rooms).length);
+    //console.log(rooms)
+    //console.log(Object.keys(rooms).length);
 
     res.redirect(req.body.room)
     io.emit('room-created', req.body.room)
@@ -34,7 +34,7 @@ app.get('/:room', (req,res)=>{
     if(rooms[req.params.room]==null){
         return res.redirect('/')
     }
-    res.render('room', {roomName: req.params.room})
+    res.render('room', {roomName: req.params.room,isTurn:1})
 })
 
 //port that server listens on: 3000
@@ -51,8 +51,6 @@ io.on('connection', (socket) => {
     })
     // socket.on()
     socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action)=>{
-        //console.log(clickX);
-        //console.log(clickY);
         socket.to(room).broadcast.emit('redraw', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
     })
     socket.on('send-chat-message', (room, message)=>{

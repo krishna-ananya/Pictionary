@@ -1,7 +1,7 @@
+"use strict";
 var context = document.getElementById('sheet').getContext("2d");
 var canvas = document.getElementById('sheet');
 context = canvas.getContext("2d");
-
 context.strokeStyle = "#ff0000";
 context.lineJoin = "round";
 context.lineWidth = 5;
@@ -32,8 +32,7 @@ function clearCanvas(){
     clickX = [];
     clickY = [];
     clickDrag = [];
-    context.clearRect(0, 0, 1200, 700);
-   // copyContext.clearRect(0, 0, 400, 400);
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 }
 /**
  * Redraw the complete canvas.
@@ -48,7 +47,6 @@ function redraw() {
             context.beginPath();
             context.moveTo(clickX[i], clickY[i]);
             context.stroke();
-
         } else if (!clickDrag[i] && i > 0) {
             context.closePath();
 
@@ -58,7 +56,6 @@ function redraw() {
         } else {
             context.lineTo(clickX[i], clickY[i]);
             context.stroke();
-
         }
     }
 }
@@ -68,8 +65,7 @@ function redraw() {
  * @return {void}
  */
 function drawNew() {
-
-    var i = clickX.length - 1;
+    var i = clickX.length - 1
     if (!clickDrag[i]) {
         if (clickX.length == 0) {
             context.beginPath();
@@ -77,6 +73,7 @@ function drawNew() {
             context.stroke();
         } else {
             context.closePath();
+
             context.beginPath();
             context.moveTo(clickX[i], clickY[i]);
             context.stroke();
@@ -88,7 +85,6 @@ function drawNew() {
 }
 
 function mouseDownEventHandler(e) {
-    //console.log(mouseDownEventHandler);
     paint = true;
     var x = e.pageX - canvas.offsetLeft;
     var y = e.pageY - canvas.offsetTop;
@@ -112,7 +108,6 @@ function mouseUpEventHandler(e) {
 }
 
 function mouseMoveEventHandler(e) {
-    //console.log("mouseMoveEventHandler");
     var x = e.pageX - canvas.offsetLeft;
     var y = e.pageY - canvas.offsetTop;
     if (paint) {
@@ -156,5 +151,8 @@ function removeRaceHandlers() {
     canvas.removeEventListener('touchstart', touchWins);
 }
 
-canvas.addEventListener('mousedown', mouseWins);
-canvas.addEventListener('touchstart', touchWins);
+var enable = document.getElementById('isTurn').value;
+if(enable == 1){
+    canvas.addEventListener('mousedown', mouseWins);
+    canvas.addEventListener('touchstart', touchWins);
+}

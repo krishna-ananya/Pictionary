@@ -4,15 +4,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Pictionary : Let's Play</title>
+        <title>Chat Place</title>
         <script>const roomName= "<%= roomName %>"</script>
+        <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
+        <script defer src="canvasStroking.js"></script>
+        <script defer src="script.js"></script>
         <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
-    <!-- Documentation extras -->
-
         <link href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" rel="stylesheet">
 
         <link href="https://getbootstrap.com/docs/4.0/assets/css/docs.min.css" rel="stylesheet">
@@ -20,241 +17,31 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> 
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <!-- Favicons -->
-        <meta name="theme-color" content="#563d7c">
-        <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
-        <script defer src="canvasStroking.js"></script>
-        <script defer src="script.js"></script>
         <link href="/css/style.css" rel="stylesheet" type="text/css">
-        <style>
-            #sheet{border:1px solid black;}
-             body {
-            margin: 0 !important;
-            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
-            font-size: 1rem !important;
-            font-weight: 400 !important;
-            line-height: 1.5 !important;
-            color: #212529 !important;
-            text-align: left !important;
-            background-color: #fff !important;
-        }
-
-        .bd-toc-link {
-            display: block !important;
-            padding: .25rem 1.5rem !important;
-            font-weight: 500 !important;
-        }
-        hr {
-            margin-top: 1rem !important;
-            margin-bottom: 1rem !important;
-            border: 0 !important;
-            border-top: 1px solid rgba(0,0,0,.1) !important;
-            box-sizing: content-box !important;
-            height: 0 !important;
-            overflow: visible !important;
-            display: block !important;
-            unicode-bidi: isolate !important;
-            margin-block-start: 0.5em !important;
-            margin-block-end: 0.5em !important;
-            margin-inline-start: auto !important;
-            margin-inline-end: auto !important;
-            background : none !important;
-        }
-        .btn {
-            display: inline-block !important;
-            font-weight: 400 !important;
-            color: #212529 !important;
-            text-align: center !important;
-            vertical-align: middle !important;
-            cursor: pointer !important;
-            -webkit-user-select: none !important;
-            -moz-user-select: none !important;
-            -ms-user-select: none !important;
-            user-select: none !important;
-            background-color: transparent !important;
-            border: 1px solid transparent !important;
-            padding: .375rem .75rem !important;
-            font-size: 1rem !important;
-            line-height: 1.5 !important;
-            border-radius: .25rem !important;
-        }
-
-          
-       .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-            background-color: #009999 !important;
-        }
-
-        html {
-            position: relative;
-            min-height: 100%;
-        }
-
-        body {
-            margin-bottom: 60px; /* Margin bottom by footer height */
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 60px; /* Set the fixed height of the footer here */
-            line-height: 60px; /* Vertically center the text there */
-            background-color: #f5f5f5;
-        }
-        .container {
-            width: auto;
-            max-width: 680px;
-            padding: 0 15px;
-        }
-
-        .chat{
-            margin-top: auto;
-            margin-bottom: auto;
-        }
-
-        .card{
-            height: 300px;
-            border-radius: 15px !important;
-            background-color: rgba(0,0,0,0.4) !important;
-            margin-top:10px;
-        }
-        .msg_card_body{
-            overflow-y: auto;
-        }
-        .card-footer{
-            border-radius: 0 0 15px 15px !important;
-            border-top: 0 !important;
-        }
-        .score{
-            margin-top: auto;
-            margin-bottom: auto;
-        }
-        .scoreCard{
-            height: 200px;
-            border: 15px !important;
-            background-color: rgba(0,0,0,0.3) !important;
-            margin-top:10px;
-        }
-        .msg_cotainer{
-            margin-top: auto;
-            margin-bottom: auto;
-            margin-left: 10px;
-            border-radius: 25px;
-            background-color: #82ccdd;
-            padding: 10px;
-            position: relative;
-        }
-        .msg_cotainer_send{
-            margin-top: auto;
-            margin-bottom: auto;
-            margin-right: 10px;
-            border-radius: 25px;
-            background-color: #78e08f;
-            padding: 10px;
-            position: relative;
-        }
-        .msg_time{
-            position: absolute;
-            left: 0;
-            bottom: -15px;
-            color: rgba(255,255,255,0.5);
-            font-size: 10px;
-        }
-        .msg_time_send{
-            position: absolute;
-            right:0;
-            bottom: -15px;
-            color: rgba(255,255,255,0.5);
-            font-size: 10px;
-        }
-        .msg_head{
-            position: relative;
-        }
-
-        .img_cont{
-            position: relative;
-            height: 70px;
-            width: 70px;
-        }
-        .img_cont_msg{
-            height: 40px;
-            width: 40px;
-        }
-        .room{
-            margin-top: auto;
-            margin-bottom: auto;
-        }
-        .roomCard{
-            height: 200px;
-            border: 15px !important;
-            background-color: rgba(0,0,0,0.2) !important;
-            margin-top:10px;
-        }
-    </style>
+        <style>#sheet{border:1px solid black;}</style>
     </head>
-    <body style="height: 100%;">
-        <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar" style="background-color: #7952b3; color: black;">
-             <div >
-                <span style="color: #f2f2f2"><b>Let's Play</b></span>
-            </div>
-        </header>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-9 col-md-6 col-lg-8" style="border-right:2px;">
-                    <div class ="row" style="margin-left:20px;margin-top:20px;">
-                        <div class ="col"> Picture the word : </div>
-                    </div>                  
-                    <div class ="row" style="margin-left:20px;margin-top:20px;">
-                            <div class = "col"> 
-                                <form id = "draw-controller"><canvas id="sheet" width="1200" height="700"></canvas></form>
-                                <button onclick ="clearCanvas()"> clear </button>
-                            </div>
-                    </div>
-                </div>
+    <body class="bg-light" style="height: 100%;">
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar" style="background-color: #7952b3; color: black;">
+          <div >
+            <span style="color: #f2f2f2"><b>Let's Play</b></span>
+          </div>
+    </header>
+    <input type="hidden" name="isTurn" id="isTurn" value= "<%= isTurn %>"/>
+    
 
-                <div class="col-sm-3 col-md-6 col-lg-4" style="border-left:2px;">
-                  <div class ="row" style="margin-top:20px;">
-                        <div class ="col room"> 
-                            <div class ="roomCard"> 
-                                <span>&nbsp;&nbsp;Room Name: </span>    
-                            </div>
-                        </div>
-                  </div> 
-                  <div class = "row" style ="margin-top:20px;">
-                    <div class="col-md col-xs score">
-                        <div class ="scoreCard"> 
-                            <span>&nbsp;&nbsp;Score </span>     
-                        </div>
-                    </div>
-                  </div>
-                  <div class = "row">
-                    <div class="col-md col-xs chat">
-                        <div class="card">
-                            <div class="card-body msg_card_body">
-                                <div id="message-holder"></div> 
-                                <div class="d-flex justify-content-start mb-4">
-                                    <div class="msg_cotainer">
-                                    Bye, see you
-                                    </div>
-                                </div>
-                            </div>
-                            <form id="send-controller">    
-                                <input type = "text" id="message-input" name="message-input placeholder="Type your message...">
-                                <button type="submit" id="send-button">Send</button>    
-                            <form>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-        </div>
-        <!--<footer class="footer">
-            <div class="container">
-                <span class="text-muted" >Pictionary 2020</span>
-            </div>
-        </footer>
-        -->
+    <form id = "draw-controller">  
+    <canvas id="sheet" width="800" height="600"></canvas>
+     </form>
+    <button onclick ="clearCanvas()"> clear </button>
+    <div id="message-holder"></div>
+    <form id="send-controller">    
+        <input type="text" id="message-input">
+        <button type="submit" id="send-button">Send</button>    
+    </form> 
+
     </body>
 </html>
