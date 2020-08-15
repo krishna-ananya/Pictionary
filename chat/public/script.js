@@ -28,7 +28,6 @@ if (canvasControllerForm != null) {
   })
 }
 
-
 if (sendMessageForm != null) {
   const name = prompt('Can I have your nickname?')
   appendMessage('You joined')
@@ -123,6 +122,11 @@ socket.on('user-connected', name => {
 })
 
 socket.on('drawer', data => {
+  if(socket.id == data){
+    canvas.addEventListener('mousedown', mouseWins);
+    canvas.addEventListener('touchstart', touchWins);
+  }
+  console.log(socket.id) 
   console.log(data)
 })
 
