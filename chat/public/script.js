@@ -125,6 +125,9 @@ socket.on('drawer', data => {
   if(socket.id == data){
     canvas.addEventListener('mousedown', mouseWins);
     canvas.addEventListener('touchstart', touchWins);
+  }else{
+    canvas.removeEventListener('mousedown', mouseWins);
+    canvas.removeEventListener('touchstart', touchWins);
   }
   console.log(socket.id) 
   console.log(data)
