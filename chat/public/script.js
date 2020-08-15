@@ -122,6 +122,10 @@ socket.on('user-connected', name => {
   appendMessage(`${name} connected`)
 })
 
+socket.on('drawer', data => {
+  console.log(data)
+})
+
 //end point for user disconnect or closing the window
 socket.on('user-disconnected', name => {
   appendMessage(`${name} disconnected`)
