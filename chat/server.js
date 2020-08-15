@@ -47,7 +47,7 @@ app.get('/:room', (req,res)=>{
     if(rooms[req.params.room]==null){
         return res.redirect('/')
     }
-    res.render('room', {roomName: req.params.room,isTurn:1})
+    res.render('room', {roomName: req.params.room})
 })
 
 //port that server listens on: 3000
@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
     socket.on('new-user', (room, name) => {
         socket.join(room)
         rooms[room].users[socket.id] = name
-        console.log(rooms[room])
+        //console.log(rooms[room])
         //if user is the first one to join the room
         if(rooms[room].drawer.length === 0){
             rooms[room].drawer.push(socket.id)
@@ -73,7 +73,6 @@ io.on('connection', (socket) => {
         io.in(room).emit('drawer', rooms[room].drawer[0])
         socket.to(room).broadcast.emit('user-connected', name)
     })
-    // socket.on()
     socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action)=>{
         socket.to(room).broadcast.emit('redraw', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
     })

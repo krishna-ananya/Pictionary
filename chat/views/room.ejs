@@ -6,6 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Chat Place</title>
         <script>const roomName= "<%= roomName %>"</script>
+
         <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
         <script defer src="canvasStroking.js"></script>
         <script defer src="script.js"></script>
@@ -32,12 +33,20 @@
             <span style="color: #f2f2f2"><b>Let's Play</b></span>
           </div>
     </header>
-    <input type="hidden" name="isTurn" id="isTurn" value= "<%= isTurn %>"/>
 
     <form id = "draw-controller">  
-    <canvas id="sheet" width="800" height="600"></canvas>
-     </form>
-    <button onclick ="clearCanvas()"> clear </button>
+        <canvas id="sheet" width="800" height="600"></canvas>
+    </form>
+    <form id="clear-controller">
+        <button onclick ="clearCanvas()"> clear </button>
+    </form>
+    <div id="guessDiv">
+        <form id="guess-controller">
+            <input type="text" id="guessword">
+            <button type="submit" id="guess-button">Guess</button>    
+        </form>
+    </div>
+
     <div id="message-holder"></div>
     <form id="send-controller">    
         <input type="text" id="message-input">
