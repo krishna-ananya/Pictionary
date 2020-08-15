@@ -4,21 +4,17 @@ const roomController = document.getElementById('room-controller')
 const sendMessageForm = document.getElementById('send-controller')
 const messageInput = document.getElementById('message-input')
 const canvasControllerForm = document.getElementById('draw-controller')
+const clearControllerForm = document.getElementById('clear-controller')
 
-
+if(clearControllerForm != null){
+  console.log("clearing form")
+  clearControllerForm.addEventListener('click', e => {
+    clearCanvas()
+    socket.emit('clear-canvas', roomName ,"clear")
+  })
+}
 if (canvasControllerForm != null) {
   console.log("canvas created")
- /* canvasControllerForm.addEventListener('mousedown', e => {
-    e.preventDefault()
-    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mousedown")
-  })
-  
-  canvasControllerForm.addEventListener('mousemove', e => {
-    e.preventDefault()
-    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mousemove" )
-  })
-*/
-
   canvasControllerForm.addEventListener('mouseup', e => {
     e.preventDefault()
     console.log("client side: "+clickX)
@@ -56,6 +52,16 @@ socket.on('room-created', room => {
 serverClickX = [];
 serverClickY = [];
 serverClickDrag = [];
+
+socket.on('clear',data => {
+  serverClickX = [];
+  serverClickY = [];
+  serverClickDrag = [];
+  clickX = [];
+  clickY = [];
+  clickDrag = [];
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+})
 
 socket.on('redraw', data => {
       clickX = [];
@@ -129,8 +135,6 @@ socket.on('drawer', data => {
     canvas.removeEventListener('mousedown', mouseWins);
     canvas.removeEventListener('touchstart', touchWins);
   }
-  console.log(socket.id) 
-  console.log(data)
 })
 
 //end point for user disconnect or closing the window

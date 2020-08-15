@@ -76,6 +76,9 @@ io.on('connection', (socket) => {
     socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action)=>{
         socket.to(room).broadcast.emit('redraw', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
     })
+    socket.on('clear-canvas', (room, clickX, clickY, clickDrag,action)=>{
+        socket.to(room).broadcast.emit('clear', {action: action,name: rooms[room].users[socket.id]})
+    })
     socket.on('guess-word', function(data) {
         io.emit('guess-word', { username: rooms[data.room].users[data.id], guessword: data.guessword})
         console.log('guessword event triggered from: ' + rooms[data.room].users[data.id] + ' with word: ' + data.guessword)
