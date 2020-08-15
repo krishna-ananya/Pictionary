@@ -24,7 +24,34 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <link href="/css/style.css" rel="stylesheet" type="text/css">
         <link href="/css/chat.css" rel="stylesheet" type="text/css">
-        <style>#sheet{border:1px solid black;}</style>
+        <style>
+
+                #sheet{border:1px solid black;}
+                /* set form background colour*/
+    form{
+      background: #fff;
+    }
+/* set padding and size of th form */
+    .form-container{
+      border-radius: 10px;
+      padding: 30px;
+    }
+
+    .form-elegant .font-small {
+        font-size: 0.8rem; }
+
+    .form-elegant .z-depth-1a {
+        -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+        box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+    .form-elegant .z-depth-1-half,
+      .form-elegant .btn:hover {
+          -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+          box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+
+.modal-dialog {
+   margin-top: 100px ;
+}
+        </style>
     </head>
 
     <body class="bg-light" style="height: 100%;">
@@ -33,8 +60,30 @@
             <span style="color: #f2f2f2"><b>Let's Play</b></span>
           </div>
     </header>
-
-    <form id = "draw-controller">  
+    <!-- Modal -->
+    <form id ="userVerfiyController">
+    <div id="userDialog" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="myModalLabel">Enter Details to play</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter Your Name" required="true">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required="true">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id = "room-entry" type="button" class="btn btn-primary">Enter Room</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </form>
+    <form id ="draw-controller">  
         <canvas id="sheet" width="800" height="600"></canvas>
     </form>
     <form id="clear-controller">

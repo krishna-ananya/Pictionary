@@ -31,11 +31,13 @@ app.get('/', (req,res)=>{
 
 //app route to create new room 
 app.post('/room', (req, res)=>{
+
     if(rooms[req.body.room]!=null){
         return res.redirect('/')
     }
     rooms[req.body.room] = { users: {}, drawer : [], guessers: [] , password: req.body.password, timer: req.body.timer, players : req.body.players, drawerCount:0}
-    //console.log(rooms)
+    console.log("room created");
+
     //console.log(Object.keys(rooms).length);
 
     res.redirect(req.body.room)
@@ -59,13 +61,13 @@ http.listen(3000, ()=>{
 io.on('connection', (socket) => {
     io.emit('roomlist', rooms);
     socket.on('new-user', (room, name) => {
+        //console.log("i am here in server")
         socket.join(room)
         rooms[room].users[socket.id] = name
         //console.log(rooms[room])
         //if user is the first one to join the room
         if(rooms[room].drawer.length === 0){
             rooms[room].drawer.push(socket.id)
-            console.log("emitting drawer")
         } else {
             rooms[room].guessers.push(socket.id)
         }
@@ -73,6 +75,7 @@ io.on('connection', (socket) => {
         io.in(room).emit('drawer', rooms[room].drawer[0])
         socket.to(room).broadcast.emit('user-connected', name)
     })
+
     socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action)=>{
         socket.to(room).broadcast.emit('redraw', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
     })

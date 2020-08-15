@@ -5,40 +5,48 @@ const sendMessageForm = document.getElementById('send-controller')
 const messageInput = document.getElementById('message-input')
 const canvasControllerForm = document.getElementById('draw-controller')
 const clearControllerForm = document.getElementById('clear-controller')
+const userVerifyForm = document.getElementById('userVerfiyController')
+const roomEntryForm = document.getElementById('room-entry');
 
+// listener for canvas clear
 if(clearControllerForm != null){
-  console.log("clearing form")
   clearControllerForm.addEventListener('click', e => {
     clearCanvas()
     socket.emit('clear-canvas', roomName, clickX, clickY, clickDrag ,"clear")
   })
 }
+//listener for canvas action
 if (canvasControllerForm != null) {
   console.log("canvas created")
   canvasControllerForm.addEventListener('mouseup', e => {
     e.preventDefault()
-    //console.log("client side: "+clickX)
-    //console.log("client side: "+clickY)
-    //console.log("client side: "+clickDrag)
     socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup")
   })
 }
-
+if(userVerifyForm != null){
+    $("#userDialog").modal({     
+        "show"      : true                     
+    })
+    roomEntryForm.addEventListener('click', e => {
+        $("#room-entry").attr("disabled", true);
+        const name = document.getElementById('username').value;
+        appendMessage('You joined')
+        socket.emit('new-user', roomName, name)
+        console.log("user added ")
+        $("#userDialog").modal('hide');        
+        $("#room-entry").attr("disabled", false);
+    })
+}
 if (sendMessageForm != null) {
-  const name = prompt('Can I have your nickname?')
-  appendMessage('You joined')
-  socket.emit('new-user', roomName, name)
-
   //main listner that adds the messages sent by the user
   sendMessageForm.addEventListener('submit', e => {
-    e.preventDefault()
-    const message = messageInput.value
-    appendMessage(`You: ${message}`)
-    socket.emit('send-chat-message', roomName, message)
-    messageInput.value = ''
+      e.preventDefault()
+      const message = messageInput.value
+      appendMessage(`You: ${message}`)
+      socket.emit('send-chat-message', roomName, message)
+      messageInput.value = ''
   })
 }
-
 //socket point to create the room, add to the list of rooms for user to join
 socket.on('room-created', room => {
   const roomElement = document.createElement('div')
@@ -49,6 +57,7 @@ socket.on('room-created', room => {
   roomController.append(roomElement)
   roomController.append(roomLink)
 })
+
 serverClickX = [];
 serverClickY = [];
 serverClickDrag = [];
