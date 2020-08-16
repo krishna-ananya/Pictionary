@@ -1,7 +1,7 @@
+"use strict";
 var context = document.getElementById('sheet').getContext("2d");
 var canvas = document.getElementById('sheet');
 context = canvas.getContext("2d");
-
 context.strokeStyle = "#ff0000";
 context.lineJoin = "round";
 context.lineWidth = 5;
@@ -28,12 +28,12 @@ function addClick(x, y, dragging) {
 /**
  * Clear the Canvas
  */
-function clearCanvas(){
-    clickX = [];
-    clickY = [];
-    clickDrag = [];
-    context.clearRect(0, 0, 1200, 700);
-   // copyContext.clearRect(0, 0, 400, 400);
+function clearCanvas() {
+    clickX.splice(0, clickX.length)
+    clickY.splice(0, clickY.length)
+    clickDrag.splice(0, clickDrag.length)
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+    context.beginPath()
 }
 /**
  * Redraw the complete canvas.
@@ -48,7 +48,6 @@ function redraw() {
             context.beginPath();
             context.moveTo(clickX[i], clickY[i]);
             context.stroke();
-
         } else if (!clickDrag[i] && i > 0) {
             context.closePath();
 
@@ -58,7 +57,6 @@ function redraw() {
         } else {
             context.lineTo(clickX[i], clickY[i]);
             context.stroke();
-
         }
     }
 }
@@ -68,8 +66,7 @@ function redraw() {
  * @return {void}
  */
 function drawNew() {
-
-    var i = clickX.length - 1;
+    var i = clickX.length - 1
     if (!clickDrag[i]) {
         if (clickX.length == 0) {
             context.beginPath();
@@ -77,6 +74,7 @@ function drawNew() {
             context.stroke();
         } else {
             context.closePath();
+
             context.beginPath();
             context.moveTo(clickX[i], clickY[i]);
             context.stroke();
@@ -88,10 +86,13 @@ function drawNew() {
 }
 
 function mouseDownEventHandler(e) {
-    //console.log(mouseDownEventHandler);
     paint = true;
-    var x = e.pageX - canvas.offsetLeft;
-    var y = e.pageY - canvas.offsetTop;
+
+    var canvasDiv = document.getElementById("canvasDiv");
+    var rect = canvasDiv.getBoundingClientRect();
+
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
     if (paint) {
         addClick(x, y, false);
         drawNew();
@@ -101,7 +102,9 @@ function mouseDownEventHandler(e) {
 function touchstartEventHandler(e) {
     paint = true;
     if (paint) {
-        addClick(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop, false);
+        var canvasDiv = document.getElementById("canvasDiv");
+        var rect = canvasDiv.getBoundingClientRect();
+        addClick(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top, false);
         drawNew();
     }
 }
@@ -112,9 +115,11 @@ function mouseUpEventHandler(e) {
 }
 
 function mouseMoveEventHandler(e) {
-    //console.log("mouseMoveEventHandler");
-    var x = e.pageX - canvas.offsetLeft;
-    var y = e.pageY - canvas.offsetTop;
+
+    var canvasDiv = document.getElementById("canvasDiv");
+    var rect = canvasDiv.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
     if (paint) {
         addClick(x, y, true);
         drawNew();
@@ -123,7 +128,9 @@ function mouseMoveEventHandler(e) {
 
 function touchMoveEventHandler(e) {
     if (paint) {
-        addClick(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop, true);
+        var canvasDiv = document.getElementById("canvasDiv");
+        var rect = canvasDiv.getBoundingClientRect();
+        addClick(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top, true);
         drawNew();
     }
 }
@@ -156,5 +163,8 @@ function removeRaceHandlers() {
     canvas.removeEventListener('touchstart', touchWins);
 }
 
-// canvas.addEventListener('mousedown', mouseWins);
-// canvas.addEventListener('touchstart', touchWins);
+//var enable = document.getElementById('isTurn').value;
+//if(enable == 1){
+//    canvas.addEventListener('mousedown', mouseWins);
+//    canvas.addEventListener('touchstart', touchWins);
+//}
