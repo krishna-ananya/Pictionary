@@ -25,32 +25,29 @@
         <link href="/css/style.css" rel="stylesheet" type="text/css">
         <link href="/css/chat.css" rel="stylesheet" type="text/css">
         <style>
+        #sheet{border:1px solid black;}
 
-                #sheet{border:1px solid black;}
-                /* set form background colour*/
-    form{
-      background: #fff;
-    }
-/* set padding and size of th form */
-    .form-container{
-      border-radius: 10px;
-      padding: 30px;
-    }
+        /* set padding and size of th form */
+        .form-container{
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+        }
 
-    .form-elegant .font-small {
-        font-size: 0.8rem; }
+        .form-elegant .font-small {
+                font-size: 0.8rem; }
 
-    .form-elegant .z-depth-1a {
-        -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
-        box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
-    .form-elegant .z-depth-1-half,
-      .form-elegant .btn:hover {
-          -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
-          box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+        .form-elegant .z-depth-1a {
+                -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+                box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+        .form-elegant .z-depth-1-half,
+            .form-elegant .btn:hover {
+                -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+                box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
 
-.modal-dialog {
-   margin-top: 100px ;
-}
+        .modal-dialog {
+                margin-top: 100px ;
+        }
         </style>
     </head>
 
@@ -60,6 +57,53 @@
             <span style="color: #f2f2f2"><b>Let's Play</b></span>
           </div>
     </header>
+    <div style="height:50px;"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class = "col-6">
+                <div id="canvasDiv" > 
+                    <form id ="draw-controller">
+                        <canvas id="sheet" width="1180" height="800"></canvas>
+                    </form>
+                </div>
+            </div>
+            <div class="col-2">
+                 <div class="row">
+                    <div class="col" style="background-color:red;height:60px;"></div>
+                    <div class="col" style="background-color:blue;height:60px;"></div>
+                    <div class="col" style="background-color:violet;height:60px;"></div>
+                    <div class="col" style="background-color:pink;height:60px;"></div>
+                 </div>
+                 <div class="row"></div>
+                 <div class="row">
+                    <div class="col" style="background-color:green;height:60px;"></div>
+                    <div class="col" style="background-color:black;height:60px;"></div>
+                    <div class="col" style="background-color:white;height:60px;"></div>
+                    <div class="col" style="background-color:brown;height:60px;"></div>
+                 </div>
+                 <div class="row">
+                    <form id="clear-controller">
+                        <button type="button" id="clear-button"> clear </button>
+                    </form>
+                </div>
+                <div class="row"> 
+                    <div class="col" id="guessDiv">
+                        <form id="guess-controller">
+                            <input type="text" id="guessword">
+                            <button type="button" id="guess-button">Guess</button>    
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-4">
+                <div id="message-holder"></div>
+                <form id="send-controller">    
+                    <textarea id="message-input"></textarea>
+                    <button type="submit" id="send-button">Send</button>    
+                </form> 
+            </div>
+        </div>
+    </div>
     <!-- Modal -->
     <form id ="userVerfiyController">
     <div id="userDialog" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -83,24 +127,5 @@
         </div>
     </div>
     </form>
-    <form id ="draw-controller">  
-        <canvas id="sheet" width="800" height="600"></canvas>
-    </form>
-    <form id="clear-controller">
-        <button type="button" id="clear-button"> clear </button>
-    </form>
-    <div id="guessDiv">
-        <form id="guess-controller">
-            <input type="text" id="guessword">
-            <button type="button" id="guess-button">Guess</button>    
-        </form>
-    </div>
-
-    <div id="message-holder"></div>
-    <form id="send-controller">    
-        <input type="text" id="message-input">
-        <button type="submit" id="send-button">Send</button>    
-    </form> 
-
     </body>
 </html>

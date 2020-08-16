@@ -86,9 +86,13 @@ function drawNew() {
 }
 
 function mouseDownEventHandler(e) {
-    paint = true;
-    var x = e.pageX - canvas.offsetLeft;
-    var y = e.pageY - canvas.offsetTop;
+    paint = true;   
+    
+    var canvasDiv = document.getElementById("canvasDiv");    
+    var rect = canvasDiv.getBoundingClientRect();
+        
+    var x = e.clientX  - rect.left;
+    var y = e.clientY - rect.top;
     if (paint) {
         addClick(x, y, false);
         drawNew();
@@ -98,7 +102,9 @@ function mouseDownEventHandler(e) {
 function touchstartEventHandler(e) {
     paint = true;
     if (paint) {
-        addClick(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop, false);
+        var canvasDiv = document.getElementById("canvasDiv"); 
+        var rect = canvasDiv.getBoundingClientRect();
+        addClick(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top, false);
         drawNew();
     }
 }
@@ -109,8 +115,11 @@ function mouseUpEventHandler(e) {
 }
 
 function mouseMoveEventHandler(e) {
-    var x = e.pageX - canvas.offsetLeft;
-    var y = e.pageY - canvas.offsetTop;
+
+    var canvasDiv = document.getElementById("canvasDiv");
+    var rect = canvasDiv.getBoundingClientRect();
+    var x = e.clientX  - rect.left;
+    var y = e.clientY - rect.top;
     if (paint) {
         addClick(x, y, true);
         drawNew();
@@ -119,7 +128,9 @@ function mouseMoveEventHandler(e) {
 
 function touchMoveEventHandler(e) {
     if (paint) {
-        addClick(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop, true);
+        var canvasDiv = document.getElementById("canvasDiv");
+        var rect = canvasDiv.getBoundingClientRect();
+        addClick(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top, true);
         drawNew();
     }
 }

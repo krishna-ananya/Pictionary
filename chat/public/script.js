@@ -23,6 +23,8 @@ if (canvasControllerForm != null) {
     socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup")
   })
 }
+
+// user verification
 if(userVerifyForm != null){
     $("#userDialog").modal({     
         "show"      : true                     
@@ -30,8 +32,10 @@ if(userVerifyForm != null){
     roomEntryForm.addEventListener('click', e => {
         $("#room-entry").attr("disabled", true);
         const name = document.getElementById('username').value;
-        appendMessage('You joined')
+        //verify password
+        //socket.emit('verify-password', roomName,document.ElementById('password').value)
         socket.emit('new-user', roomName, name)
+        appendMessage('You joined')
         console.log("user added ")
         $("#userDialog").modal('hide');        
         $("#room-entry").attr("disabled", false);
