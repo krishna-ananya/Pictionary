@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
             rooms[room].guessers.push(socket.id)
         }
         //console.log("server.js "+rooms[room].drawer[0])
-        io.in(room).emit('drawer', rooms[room].drawer[0])
+        io.in(room).emit('drawer', {room:room, user: rooms[room].drawer[0], guessWord:newWord()})
         socket.to(room).broadcast.emit('user-connected', name)
     })
 
@@ -82,8 +82,11 @@ io.on('connection', (socket) => {
     socket.on('clear-canvas', (room, clickX, clickY, clickDrag,action)=>{
         socket.to(room).broadcast.emit('clear', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
     })
-    socket.on('guess-word', function(data) {
-        io.emit('guess-word', { username: rooms[data.room].users[data.id], guessword: data.guessword})
+  
+    socket.on('validate-guess-word', function(data) {
+        if(data.guessor_val===data.guessWord){
+            socket.emit('correct-guess-word', true)
+        }
         console.log('guessword event triggered from: ' + rooms[data.room].users[data.id] + ' with word: ' + data.guessword)
     })
 

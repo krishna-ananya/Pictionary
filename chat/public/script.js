@@ -1,3 +1,4 @@
+
 const socket = io('http://localhost:3000')
 const messageHolder = document.getElementById('message-holder')
 const roomController = document.getElementById('room-controller')
@@ -41,15 +42,30 @@ if(userVerifyForm != null){
         $("#room-entry").attr("disabled", false);
     })
 }
+
 if (sendMessageForm != null) {
-  //main listner that adds the messages sent by the user
-  sendMessageForm.addEventListener('submit', e => {
-      e.preventDefault()
-      const message = messageInput.value
-      appendMessage(`You: ${message}`)
-      socket.emit('send-chat-message', roomName, message)
-      messageInput.value = ''
-  })
+  socket.on('drawer', data => {
+    if (socket.id == data.user) {
+       $("#message-input").hide()
+       $("#send-button").hide()
+    } else {
+      //listener to validate guessed word
+      sendMessageForm.addEventListener('submit', e => {
+        e.preventDefault()
+        const message = messageInput.value.toLowerCase();
+        socket.emit('validate-guess-word', {room:roomName, guessor_val:message, guesser_id:socket.id, guessWord: data.guessWord})
+        socket.on('correct-guess-word', function(ret){
+          if(ret===true){
+            console.log("Correct answer");
+            //TODO need to say on the guessor window that they answered right
+            //TODO call socket.on next-drawer
+            //TODO update points for user (update the data structure)
+          }
+        })
+        messageInput.value = ''
+      })
+    }
+  });
 }
 //socket point to create the room, add to the list of rooms for user to join
 socket.on('room-created', room => {
@@ -144,10 +160,10 @@ socket.on('user-connected', name => {
 })
 
 socket.on('drawer', data => {
-  if(socket.id == data){
+  if (socket.id == data.user) {
     canvas.addEventListener('mousedown', mouseWins);
     canvas.addEventListener('touchstart', touchWins);
-  }else{
+  } else {
     canvas.removeEventListener('mousedown', mouseWins);
     canvas.removeEventListener('touchstart', touchWins);
   }
