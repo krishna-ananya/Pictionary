@@ -10,10 +10,10 @@ const userVerifyForm = document.getElementById('userVerfiyController')
 const roomEntryForm = document.getElementById('room-entry');
 
 // listener for canvas clear
-if (clearControllerForm != null) {
+if(clearControllerForm != null){
   clearControllerForm.addEventListener('click', e => {
     clearCanvas()
-    socket.emit('clear-canvas', roomName, clickX, clickY, clickDrag, "clear")
+    socket.emit('clear-canvas', roomName, clickX, clickY, clickDrag ,"clear")
   })
 }
 //listener for canvas action
@@ -21,26 +21,26 @@ if (canvasControllerForm != null) {
   console.log("canvas created")
   canvasControllerForm.addEventListener('mouseup', e => {
     e.preventDefault()
-    socket.emit('drawing-on-canvas', roomName, clickX, clickY, clickDrag, "mouseup")
+    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup")
   })
 }
 
 // user verification
-if (userVerifyForm != null) {
-  $("#userDialog").modal({
-    "show": true
-  })
-  roomEntryForm.addEventListener('click', e => {
-    $("#room-entry").attr("disabled", true);
-    const name = document.getElementById('username').value;
-    //verify password
-    //socket.emit('verify-password', roomName,document.ElementById('password').value)
-    socket.emit('new-user', roomName, name)
-    appendMessage('You joined')
-    console.log("user added ")
-    $("#userDialog").modal('hide');
-    $("#room-entry").attr("disabled", false);
-  })
+if(userVerifyForm != null){
+    $("#userDialog").modal({     
+        "show"      : true                     
+    })
+    roomEntryForm.addEventListener('click', e => {
+        $("#room-entry").attr("disabled", true);
+        const name = document.getElementById('username').value;
+        //verify password
+        //socket.emit('verify-password', roomName,document.ElementById('password').value)
+        socket.emit('new-user', roomName, name)
+        appendMessage('You joined')
+        console.log("user added ")
+        $("#userDialog").modal('hide');        
+        $("#room-entry").attr("disabled", false);
+    })
 }
 
 if (sendMessageForm != null) {
@@ -67,7 +67,6 @@ if (sendMessageForm != null) {
     }
   });
 }
-
 //socket point to create the room, add to the list of rooms for user to join
 socket.on('room-created', room => {
   const roomElement = document.createElement('div')
@@ -83,11 +82,11 @@ serverClickX = [];
 serverClickY = [];
 serverClickDrag = [];
 
-socket.on('clear', data => {
+socket.on('clear',data => {
   serverClickX.splice(0, serverClickX.length)
   serverClickY.splice(0, serverClickY.length)
   serverClickDrag.splice(0, serverClickDrag.length)
-
+  
   clickX.splice(0, clickX.length);
   clickY.splice(0, clickY.length);
   clickDrag.splice(0, clickDrag.length);
@@ -97,57 +96,57 @@ socket.on('clear', data => {
 })
 
 socket.on('redraw', data => {
-  clickX.splice(0, clickX.length);
-  clickY.splice(0, clickY.length);
-  clickDrag.splice(0, clickDrag.length);
-  var tX = []; var tY = []; var tDrag = [];
-  var lClickX = [];
-  var lClickY = [];
-  var lclickDrag = [];
+      clickX.splice(0, clickX.length);
+      clickY.splice(0, clickY.length);
+      clickDrag.splice(0, clickDrag.length);
+      var tX =[];var tY =[]; var tDrag = [];
+      var lClickX = [];
+      var lClickY = [];
+      var lclickDrag = [];
 
 
-  tX = `${data.clickX}`.split(",")
-  tY = `${data.clickY}`.split(",")
-  tDrag = `${data.clickDrag}`.split(",")
-  if (serverClickX.length == 0) {
+      tX = `${data.clickX}`.split(",")
+      tY = `${data.clickY}`.split(",")
+      tDrag = `${data.clickDrag}`.split(",")
+      if(serverClickX.length == 0){
 
-    lClickX = tX
-    lClickY = tY
-    lclickDrag = tDrag
-  }
-  else {
-    var l = serverClickX.length
-    lClickX = tX.slice(l, tX.length)
+        lClickX = tX
+        lClickY = tY
+        lclickDrag = tDrag
+      }
+      else{
+        var l = serverClickX.length
+        lClickX = tX.slice(l,tX.length)
 
-    l = serverClickY.length
-    lClickY = tY.slice(l, tY.length)
+        l = serverClickY.length 
+        lClickY = tY.slice(l,tY.length)
 
-    l = serverClickDrag.length
-    lclickDrag = tDrag.slice(l, tDrag.length)
-  }
+        l = serverClickDrag.length
+        lclickDrag = tDrag.slice(l,tDrag.length)
+      }
 
-  serverClickX = tX
-  serverClickY = tY
-  serverClickDrag = tDrag
+      serverClickX = tX
+      serverClickY = tY
+      serverClickDrag = tDrag
 
-  context.moveTo(lClickX[0], lClickY[0]);
-  for (var i = 1; i < lClickX.length; i += 1) {
-    if (!lclickDrag[i] && i == 0) {
-      context.beginPath();
-      context.moveTo(lClickX[i], lClickY[i]);
-      context.stroke();
+      context.moveTo(lClickX[0], lClickY[0]);
+      for (var i = 1; i < lClickX.length; i += 1) {
+          if (!lclickDrag[i] && i == 0) {
+              context.beginPath();
+              context.moveTo(lClickX[i], lClickY[i]);
+              context.stroke();
 
-    } else if (!lclickDrag[i] && i > 0) {
-      context.closePath();
+          } else if (!lclickDrag[i] && i > 0) {
+              context.closePath();
 
-      context.beginPath();
-      context.moveTo(lClickX[i], lClickY[i]);
-      context.stroke();
-    } else {
-      context.lineTo(lClickX[i], lClickY[i]);
-      context.stroke();
-    }
-  }
+              context.beginPath();
+              context.moveTo(lClickX[i], lClickY[i]);
+              context.stroke();
+          } else {
+              context.lineTo(lClickX[i], lClickY[i]);
+              context.stroke();
+          }
+      }
 })
 
 //socket point for the client to broadcast chat message to other users in the room

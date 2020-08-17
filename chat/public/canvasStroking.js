@@ -28,7 +28,7 @@ function addClick(x, y, dragging) {
 /**
  * Clear the Canvas
  */
-function clearCanvas() {
+function clearCanvas(){
     clickX.splice(0, clickX.length)
     clickY.splice(0, clickY.length)
     clickDrag.splice(0, clickDrag.length)
@@ -86,12 +86,12 @@ function drawNew() {
 }
 
 function mouseDownEventHandler(e) {
-    paint = true;
-
-    var canvasDiv = document.getElementById("canvasDiv");
+    paint = true;   
+    
+    var canvasDiv = document.getElementById("canvasDiv");    
     var rect = canvasDiv.getBoundingClientRect();
-
-    var x = e.clientX - rect.left;
+        
+    var x = e.clientX  - rect.left;
     var y = e.clientY - rect.top;
     if (paint) {
         addClick(x, y, false);
@@ -102,7 +102,7 @@ function mouseDownEventHandler(e) {
 function touchstartEventHandler(e) {
     paint = true;
     if (paint) {
-        var canvasDiv = document.getElementById("canvasDiv");
+        var canvasDiv = document.getElementById("canvasDiv"); 
         var rect = canvasDiv.getBoundingClientRect();
         addClick(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top, false);
         drawNew();
@@ -118,7 +118,7 @@ function mouseMoveEventHandler(e) {
 
     var canvasDiv = document.getElementById("canvasDiv");
     var rect = canvasDiv.getBoundingClientRect();
-    var x = e.clientX - rect.left;
+    var x = e.clientX  - rect.left;
     var y = e.clientY - rect.top;
     if (paint) {
         addClick(x, y, true);

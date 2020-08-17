@@ -1,144 +1,131 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Chat Place</title>
+        <script>const roomName= "<%= roomName %>"</script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chat Place</title>
-    <script>const roomName = "<%= roomName %>"</script>
+        <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
+        <script defer src="canvasStroking.js"></script>
+        <script defer src="script.js"></script>
+        <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" rel="stylesheet">
 
-    <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
-    <script defer src="canvasStroking.js"></script>
-    <script defer src="script.js"></script>
-    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" rel="stylesheet">
+        <link href="https://getbootstrap.com/docs/4.0/assets/css/docs.min.css" rel="stylesheet">
 
-    <link href="https://getbootstrap.com/docs/4.0/assets/css/docs.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-    <link href="/css/style.css" rel="stylesheet" type="text/css">
-    <link href="/css/chat.css" rel="stylesheet" type="text/css">
-    <style>
-        #sheet {
-            border: 1px solid black;
-            width: 80vh;
-            height: 80vh;
-        }
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <link href="/css/style.css" rel="stylesheet" type="text/css">
+        <link href="/css/chat.css" rel="stylesheet" type="text/css">
+        <style>
+        #sheet{border:1px solid black;}
 
         /* set padding and size of th form */
-        .form-container {
+        .form-container{
             background: #fff;
             border-radius: 10px;
             padding: 30px;
         }
 
         .form-elegant .font-small {
-            font-size: 0.8rem;
-        }
+                font-size: 0.8rem; }
 
         .form-elegant .z-depth-1a {
-            -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
-            box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
-        }
-
+                -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+                box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
         .form-elegant .z-depth-1-half,
-        .form-elegant .btn:hover {
-            -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
-            box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
-        }
+            .form-elegant .btn:hover {
+                -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+                box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
 
         .modal-dialog {
-            margin-top: 100px;
+                margin-top: 100px ;
         }
-    </style>
-</head>
+        </style>
+    </head>
 
-<body class="bg-light" style="height: 100%;">
-    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar"
-        style="background-color: #7952b3; color: black;">
-        <div>
+    <body class="bg-light" style="height: 100%;">
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar" style="background-color: #7952b3; color: black;">
+          <div >
             <span style="color: #f2f2f2"><b>Let's Play</b></span>
-        </div>
+          </div>
     </header>
     <div style="height:50px;"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6">
-                <div id="canvasDiv">
-                    <form id="draw-controller">
+            <div class = "col-6">
+                <div id="canvasDiv" > 
+                    <form id ="draw-controller">
                         <canvas id="sheet" width="1180" height="800"></canvas>
                     </form>
                 </div>
             </div>
             <div class="col-2">
-                <div class="row">
+                 <div class="row">
                     <div class="col" style="background-color:red;height:60px;"></div>
                     <div class="col" style="background-color:blue;height:60px;"></div>
                     <div class="col" style="background-color:violet;height:60px;"></div>
                     <div class="col" style="background-color:pink;height:60px;"></div>
-                </div>
-                <div class="row"></div>
-                <div class="row">
+                 </div>
+                 <div class="row"></div>
+                 <div class="row">
                     <div class="col" style="background-color:green;height:60px;"></div>
                     <div class="col" style="background-color:black;height:60px;"></div>
                     <div class="col" style="background-color:white;height:60px;"></div>
                     <div class="col" style="background-color:brown;height:60px;"></div>
-                </div>
-                <div class="row">
+                 </div>
+                 <div class="row">
                     <form id="clear-controller">
                         <button type="button" id="clear-button"> clear </button>
                     </form>
                 </div>
-                <div class="col-4">
-                    <div id="message-holder"></div>
-                    <form id="send-controller">
-                        <textarea id="message-input"></textarea>
-                        <button type="submit" id="send-button">Guess</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Modal -->
-        <form id="userVerfiyController">
-            <div id="userDialog" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1"
-                role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="myModalLabel">Enter Details to play</h3>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="username" id="username"
-                                    placeholder="Enter Your Name" required="true">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" name="password" id="password"
-                                    placeholder="Enter Password" required="true">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="room-entry" type="button" class="btn btn-primary">Enter Room</button>
-                        </div>
+                <div class="row"> 
+                    <div class="col" id="guessDiv">
+                        <form id="guess-controller">
+                            <input type="text" id="guessword">
+                            <button type="button" id="guess-button">Guess</button>    
+                        </form>
                     </div>
                 </div>
             </div>
-        </form>
-</body>
-
+            <div class = "col-4">
+                <div id="message-holder"></div>
+                <form id="send-controller">    
+                    <textarea id="message-input"></textarea>
+                    <button type="submit" id="send-button">Send</button>    
+                </form> 
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <form id ="userVerfiyController">
+    <div id="userDialog" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="myModalLabel">Enter Details to play</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter Your Name" required="true">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required="true">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id = "room-entry" type="button" class="btn btn-primary">Enter Room</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </form>
+    </body>
 </html>
