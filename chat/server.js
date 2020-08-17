@@ -82,7 +82,16 @@ io.on('connection', (socket) => {
     socket.on('clear-canvas', (room, clickX, clickY, clickDrag,action)=>{
         socket.to(room).broadcast.emit('clear', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
     })
-  
+    socket.on('validate-password', function(roomName,passcode) {
+        console.log("validate - password ")
+        
+        if(rooms[roomName].password === passcode){
+            socket.emit('correct-password', true)
+        }else{
+            socket.emit('correct-password', false)
+        }
+    })
+
     socket.on('validate-guess-word', function(data) {
         if(data.guessor_val===data.guessWord){
             socket.emit('correct-guess-word', true)

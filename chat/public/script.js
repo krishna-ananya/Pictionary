@@ -34,12 +34,22 @@ if(userVerifyForm != null){
         $("#room-entry").attr("disabled", true);
         const name = document.getElementById('username').value;
         //verify password
-        //socket.emit('verify-password', roomName,document.ElementById('password').value)
-        socket.emit('new-user', roomName, name)
-        appendMessage('You joined')
-        console.log("user added ")
-        $("#userDialog").modal('hide');        
-        $("#room-entry").attr("disabled", false);
+        const passcode = document.getElementById('password').value;
+
+        socket.emit('validate-password', roomName, passcode)
+        socket.on('correct-password',function(ret){
+            if(ret === true){
+              socket.emit('new-user', roomName, name)
+              appendMessage('You joined')
+              console.log("user added ")
+              $("#userDialog").modal('hide');        
+              $("#room-entry").attr("disabled", false);
+            }else{
+              alert(' Please enter the right Password to start play ')
+              $("#room-entry").attr("disabled", false);
+            }
+
+        })
     })
 }
 
