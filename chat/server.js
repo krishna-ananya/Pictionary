@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
             rooms[room].guessers.push(socket.id)
         }
         //console.log("server.js "+rooms[room].drawer[0])
-        io.in(room).emit('drawer', {room:room, user: room.drawer[0], guessWord:newWord()})
+        io.in(room).emit('drawer', {room:room, user: rooms[room].drawer[0], guessWord:newWord()})
         socket.to(room).broadcast.emit('user-connected', name)
     })
 
