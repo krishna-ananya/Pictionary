@@ -57,49 +57,21 @@
             <span style="color: #f2f2f2"><b>Let's Play</b></span>
           </div>
     </header>
-    <div style="height:50px;"></div>
+    <div style="margin-top:10px;margin-bottom:10px;" id="guessWord"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class = "col-6">
+            <div class = "col-8">
                 <div id="canvasDiv" > 
                     <form id ="draw-controller">
                         <canvas id="sheet" width="1180" height="800"></canvas>
                     </form>
                 </div>
             </div>
-            <div class="col-2">
-                 <div class="row">
-                    <div class="col" style="background-color:red;height:60px;"></div>
-                    <div class="col" style="background-color:blue;height:60px;"></div>
-                    <div class="col" style="background-color:violet;height:60px;"></div>
-                    <div class="col" style="background-color:pink;height:60px;"></div>
-                 </div>
-                 <div class="row"></div>
-                 <div class="row">
-                    <div class="col" style="background-color:green;height:60px;"></div>
-                    <div class="col" style="background-color:black;height:60px;"></div>
-                    <div class="col" style="background-color:white;height:60px;"></div>
-                    <div class="col" style="background-color:brown;height:60px;"></div>
-                 </div>
-                 <div class="row">
-                    <form id="clear-controller">
-                        <button type="button" id="clear-button"> clear </button>
-                    </form>
-                </div>
-                <div class="row"> 
-                    <div class="col" id="guessDiv">
-                        <form id="guess-controller">
-                            <input type="text" id="guessword">
-                            <button type="button" id="guess-button">Guess</button>    
-                        </form>
-                    </div>
-                </div>
-            </div>
             <div class = "col-4">
                 <div id="message-holder"></div>
                 <form id="send-controller">    
                     <textarea id="message-input"></textarea>
-                    <button type="submit" id="send-button">Send</button>    
+                    <button type="submit" id="send-button">Guess</button>    
                 </form> 
             </div>
         </div>
