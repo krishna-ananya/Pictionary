@@ -38,9 +38,6 @@ app.post('/room', (req, res)=>{
     }
     rooms[req.body.room] = { users: {}, drawer : [], guessers: [] , password: req.body.password, timer: req.body.timer, players : req.body.players, drawerCount:0, currentGuessWord: ""}
     console.log("room created");
-
-    //console.log(Object.keys(rooms).length);
-
     res.redirect(req.body.room)
     io.emit('room-created', req.body.room)
 })
