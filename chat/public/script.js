@@ -70,6 +70,8 @@ if (sendMessageForm != null) {
       if(ret===true){
         console.log("Correct answer");
         socket.emit('next-drawer',roomName);
+
+        /*
         socket.on('drawer', data => {
           if (socket.id == data.user) {
             console.log("iam a drawer")
@@ -85,6 +87,8 @@ if (sendMessageForm != null) {
             canvas.removeEventListener('touchstart', touchWins);
           }
         })
+        */
+
         //TODO need to say on the guessor window that they answered right
         //TODO call socket.on next-drawer
         //TODO update points for user (update the data structure)
@@ -194,7 +198,7 @@ socket.on('drawer', data => {
   } else {
     console.log("iam a guessor")
     displayWord.innerHTML="";
-    document.getElementById("guessor-block").style.visibility = "show";
+    document.getElementById("guessor-block").style.visibility = "visible";
     canvas.removeEventListener('mousedown', mouseWins);
     canvas.removeEventListener('touchstart', touchWins);
   }

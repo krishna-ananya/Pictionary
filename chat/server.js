@@ -114,8 +114,9 @@ io.on('connection', (socket) => {
         guessWord = newWord()
         rooms[room].currentGuessWord = guessWord;
         console.log("word assigned for next drawer: "+rooms[room].users[rooms[room].drawer[0]]+" guess word: "+guessWord)
-        socket.to(room).broadcast.emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord})
+        io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord})
     })
+
     socket.on('send-chat-message', (room, message)=>{
         socket.to(room).broadcast.emit('chat-message', {message: message , name: rooms[room].users[socket.id]})
     })
