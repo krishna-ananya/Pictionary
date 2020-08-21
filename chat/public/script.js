@@ -82,6 +82,7 @@ if (sendMessageForm != null) {
         //TODO call socket.on next-drawer
         //TODO update points for user (update the data structure)
       }else{
+        $('#send-button').attr('disabled',false)
         console.log(" wrong answer ")
       }
     })

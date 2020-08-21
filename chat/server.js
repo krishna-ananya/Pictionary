@@ -116,10 +116,11 @@ io.on('connection', (socket) => {
         console.log("drawer length "+ rooms[room].drawer.length)
         console.log("guesser length "+ rooms[room].guessers.length)
 
-        /*rooms[room].guessers.push(rooms[room].drawer[0])
+        rooms[room].guessers.push(rooms[room].drawer[0])
         rooms[room].drawer.splice(0, rooms[room].drawer.length)
         rooms[room].drawer.push(rooms[room].guessers[0])
-        var x = rooms[room].guessers.shift()*/
+        var x = rooms[room].guessers.shift()
+
         //console.log("x  -" + rooms[room].users[x])
         if(data.turnId == rooms[data.room].turnId){
         
@@ -132,6 +133,8 @@ io.on('connection', (socket) => {
             console.log("guesser length ---- "+ rooms[room].guessers.length +" guessers "+rooms[room].guessers)
 
             io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId})
+        }else{
+            console.log("blaaaaaa ");
         }
     })
 
