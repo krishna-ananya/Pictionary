@@ -64,18 +64,25 @@ if (sendMessageForm != null) {
   //listener to validate guessed word
   sendMessageForm.addEventListener('submit', e => {
     e.preventDefault()
+    $('#send-button').attr('disabled',true)
+    console.log("in submit")
     const message = messageInput.value.toLowerCase();
     document.getElementById("message-input").value = "";
-    $('#send-button').attr('disabled',true)
-    socket.emit('validate-guess-word', {room:roomName, guessor_val:message, guesser_id:socket.id})
-    socket.on('correct-guess-word', function(ret){
-      if(ret===true){
-        console.log("Correct answer");
+    const tId = document.getElementById("turnId").value;
+    console.log(tId);
+
+    socket.emit('validate-guess-word', {room:roomName, guessor_val:message, guesser_id:socket.id,turnId:tId});
+    
+    socket.on('correct-guess-word', function(data){
+      if(data.result===true && tId === data.turnId){
+        console.log("Correct answer "+socket.id);
         $('#send-button').attr('disabled',false)
-        socket.emit('next-drawer',roomName);
+        socket.emit('next-drawer',{room:roomName,turnId:tId});
         //TODO need to say on the guessor window that they answered right
         //TODO call socket.on next-drawer
         //TODO update points for user (update the data structure)
+      }else{
+        console.log(" wrong answer ")
       }
     })
   });
@@ -173,6 +180,7 @@ socket.on('user-connected', name => {
 })
 
 socket.on('drawer', data => {
+  document.getElementById("turnId").value = data.turnId;
   if (socket.id == data.user) {
     console.log("iam a drawer")
     displayWord.innerHTML= data.guessWord;

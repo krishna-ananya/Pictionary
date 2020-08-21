@@ -68,11 +68,12 @@ io.on('connection', (socket) => {
             rooms[room].drawer.push(socket.id)
             guessWord = newWord()
             rooms[room].currentGuessWord = guessWord;
+            rooms[room].turnId = Math.ceil(Math.random() * 100000 )
         } else {
             rooms[room].guessers.push(socket.id)
         }
         console.log("guess word assigned to first drawer :"+ guessWord)
-        io.in(room).emit('drawer', {room:room, user: rooms[room].drawer[0], guessWord:guessWord})
+        io.in(room).emit('drawer', {room:room, user: rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId})
         socket.to(room).broadcast.emit('user-connected', name)
     })
 
@@ -92,26 +93,46 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('guess-word', function(room) {
+    /*socket.on('guess-word', function(room) {
             
-    })
+    })*/
 
     socket.on('validate-guess-word', function(data) {
-        if(data.guessor_val===rooms[data.room].currentGuessWord){
-            socket.emit('correct-guess-word', true)
+        if(data.turnId == rooms[data.room].turnId){
+            if(data.guessor_val===rooms[data.room].currentGuessWord){
+                socket.emit('correct-guess-word', {result: true,turnId:data.turnId})
+            }else{
+                socket.emit('correct-guess-word', {result: false,turnId:data.turnId})
+            }
+        }else{
+            socket.emit('correct-guess-word', {result: false,turnId:data.turnId})
         }
         console.log('guessword event triggered from: ' + rooms[data.room].users[data.guesser_id] + ' with word: ' + rooms[data.room].currentGuessWord)
     })
 
-    socket.on('next-drawer', function(room){
-        rooms[room].guessers.push(rooms[room].drawer[0])
+    socket.on('next-drawer', function(data){
+        var room = data.room;
+
+        console.log("drawer length "+ rooms[room].drawer.length)
+        console.log("guesser length "+ rooms[room].guessers.length)
+
+        /*rooms[room].guessers.push(rooms[room].drawer[0])
         rooms[room].drawer.splice(0, rooms[room].drawer.length)
         rooms[room].drawer.push(rooms[room].guessers[0])
-        var x = rooms[room].guessers.shift()
-        guessWord = newWord()
-        rooms[room].currentGuessWord = guessWord;
-        console.log("word assigned for next drawer: "+rooms[room].users[rooms[room].drawer[0]]+" guess word: "+guessWord)
-        io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord})
+        var x = rooms[room].guessers.shift()*/
+        //console.log("x  -" + rooms[room].users[x])
+        if(data.turnId == rooms[data.room].turnId){
+        
+            guessWord = newWord()
+            rooms[room].currentGuessWord = guessWord;
+            rooms[room].turnId = Math.ceil(Math.random() * 100000 )
+            
+            console.log("word assigned for next drawer: "+rooms[room].users[rooms[room].drawer[0]]+" guess word: "+guessWord)
+            console.log("drawer list "+ rooms[room].drawer )
+            console.log("guesser length ---- "+ rooms[room].guessers.length +" guessers "+rooms[room].guessers)
+
+            io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId})
+        }
     })
 
     socket.on('send-chat-message', (room, message)=>{
