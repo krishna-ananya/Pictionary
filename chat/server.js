@@ -9,6 +9,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
 
 const rooms = {}
+const userCount = {}
 
 var guessWord;
 
@@ -27,7 +28,7 @@ var wordcount;
 //default app route when no rooms availbale or when server started
 app.get('/', (req,res)=>{
     let count = Object.keys(rooms).length
-    res.render('index', { rooms : rooms, roomCount: count})
+    res.render('index', { rooms : rooms, roomCount: count, userCount: userCount})
 })
 
 //app route to create new room 
@@ -36,8 +37,14 @@ app.post('/room', (req, res)=>{
     if(rooms[req.body.room]!=null){
         return res.redirect('/')
     }
+    if(isNaN(req.body.players)){
+        req.body.players = 2
+    }
+    if(isNaN(req.body.timer)){
+        req.body.timer = 30
+    }
     rooms[req.body.room] = { users: {}, drawer : [], guessers: [] , password: req.body.password, timer: req.body.timer, players : req.body.players, drawerCount:0, currentGuessWord: ""}
-    console.log("room created");
+    userCount[req.body.room] = 0
     res.redirect(req.body.room)
     io.emit('room-created', req.body.room)
 })
@@ -61,7 +68,8 @@ io.on('connection', (socket) => {
     socket.on('new-user', (room, name) => {
         //console.log("i am here in server")
         socket.join(room)
-        rooms[room].users[socket.id] = name
+        rooms[room].users[socket.id] = { name:name, score:0}
+        userCount[room] += 1
         //console.log(rooms[room])
         //if user is the first one to join the room
         if(rooms[room].drawer.length === 0){
@@ -100,6 +108,8 @@ io.on('connection', (socket) => {
     socket.on('validate-guess-word', function(data) {
         if(data.turnId == rooms[data.room].turnId){
             if(data.guessor_val===rooms[data.room].currentGuessWord){
+                rooms[data.room].users[data.guesser_id].score += 10
+                rooms[data.room].users[rooms[data.room].drawer[0]].score += 10
                 socket.emit('correct-guess-word', {result: true,turnId:data.turnId})
             }else{
                 socket.emit('correct-guess-word', {result: false,turnId:data.turnId})
@@ -107,7 +117,7 @@ io.on('connection', (socket) => {
         }else{
             socket.emit('correct-guess-word', {result: false,turnId:data.turnId})
         }
-        console.log('guessword event triggered from: ' + rooms[data.room].users[data.guesser_id] + ' with word: ' + rooms[data.room].currentGuessWord)
+        console.log('guessword event triggered from: ' + rooms[data.room].users[data.guesser_id].name + ' with word: ' + rooms[data.room].currentGuessWord)
     })
 
     socket.on('next-drawer', function(data){
@@ -128,7 +138,7 @@ io.on('connection', (socket) => {
             rooms[room].currentGuessWord = guessWord;
             rooms[room].turnId = Math.ceil(Math.random() * 100000 )
             
-            console.log("word assigned for next drawer: "+rooms[room].users[rooms[room].drawer[0]]+" guess word: "+guessWord)
+            console.log("word assigned for next drawer: "+rooms[room].users[rooms[room].drawer[0]].name+" guess word: "+guessWord)
             console.log("drawer list "+ rooms[room].drawer )
             console.log("guesser length ---- "+ rooms[room].guessers.length +" guessers "+rooms[room].guessers)
 
@@ -138,12 +148,15 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on('send-chat-message', (room, message)=>{
-        socket.to(room).broadcast.emit('chat-message', {message: message , name: rooms[room].users[socket.id]})
+    socket.on('send-chat-message', function(data){
+        console.log("entered messaging"+data.turnId+" rooms "+rooms[data.room].turnId)
+        if(data.turnId == rooms[data.room].turnId){
+            socket.emit('chat-message', {message: data.message , name: rooms[data.room].users[socket.id]})
+        }
     })
     socket.on('disconnect', ()=>{
         getUserRooms(socket).forEach(room=>{
-            socket.to(room).broadcast.emit('user-disconnected', rooms[room].users[socket.id])
+            socket.to(room).broadcast.emit('user-disconnected', rooms[room].users[socket.id].name)
             delete rooms[room].users[socket.id]
         })
     })

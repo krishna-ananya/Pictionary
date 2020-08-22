@@ -101,7 +101,7 @@
         <li class="list-group-item d-flex justify-content-between lh-condensed">
           <div>
             <h6 class="my-0"><%= room %></h6>
-            <small class="text-muted">2/8</small>
+            <small class="text-muted"><%= userCount[room] %>/<%= rooms[room].players %></small>
           </div>
           <medium class="text-muted"><a href="/<%= room %>">Join</a></medium>
         </li>

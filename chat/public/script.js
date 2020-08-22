@@ -74,15 +74,16 @@ if (sendMessageForm != null) {
     socket.emit('validate-guess-word', {room:roomName, guessor_val:message, guesser_id:socket.id,turnId:tId});
     
     socket.on('correct-guess-word', function(data){
-      if(data.result===true && tId === data.turnId){
+      if(message.length==0) {
+
+      } else if(data.result===true && tId === data.turnId){
         console.log("Correct answer "+socket.id);
         $('#send-button').attr('disabled',false)
+        appendMessage(`${message} is correct`)
         socket.emit('next-drawer',{room:roomName,turnId:tId});
-        //TODO need to say on the guessor window that they answered right
-        //TODO call socket.on next-drawer
-        //TODO update points for user (update the data structure)
-      }else{
+      } else{
         $('#send-button').attr('disabled',false)
+        appendMessage(`Wrong answer. Please try again`)
         console.log(" wrong answer ")
       }
     })
