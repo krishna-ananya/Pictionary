@@ -185,7 +185,7 @@ socket.on('drawer', data => {
   document.getElementById("turnId").value = data.turnId;
   if (socket.id == data.user) {
     console.log("iam a drawer")
-    displayWord.innerHTML= data.guessWord;
+    displayWord.innerHTML="Draw --->  "+ data.guessWord;
     document.getElementById("guessor-block").style.visibility = "hidden";
     canvas.addEventListener('mousedown', mouseWins);
     canvas.addEventListener('touchstart', touchWins);

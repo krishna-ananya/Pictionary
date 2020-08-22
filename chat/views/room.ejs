@@ -48,6 +48,31 @@
         .modal-dialog {
                 margin-top: 100px ;
         }
+        #guessWord{
+            margin-top: 1%;
+            margin-bottom: 1%;
+            margin-left:25%;
+            font-style: italic;
+            font-stretch: semi-expanded;
+            font-size: xxx-large;
+            font-weight: bolder;
+            color: crimson;
+            min-height:4%;
+        }
+        #clear-button{
+            background-color: #a24caf;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 41px;
+            margin: 4px 2px;
+            width: 200px;
+            border-radius: 10px;
+            float: right;
+            margin-right: 25%;
+        }
         </style>
     </head>
 
@@ -59,18 +84,19 @@
           </div>
     </header>
     <!--Need to change the style of guess word for the drawer-->
-    <div style="margin-top:10px;margin-bottom:10px;" id="guessWord"></div>
+    
     <div class="container-fluid">
         <div class="row">
             <div class = "col-8">
-                <form id="clear-controller">
-                    <button type="button" id="clear-button"> clear </button>
-                </form>
+                <div id="guessWord"></div>
                 <div id="canvasDiv" > 
                     <form id ="draw-controller">
                         <canvas id="sheet" width="1180" height="800"></canvas>
                     </form>
                 </div>
+                <form id="clear-controller">
+                    <button type="button" id="clear-button"> clear </button>
+                </form>
             </div>
             <div class = "col-4">
                 <div id="message-holder"></div>
