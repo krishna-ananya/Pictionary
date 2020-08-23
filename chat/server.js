@@ -66,7 +66,6 @@ http.listen(3000, ()=>{
 io.on('connection', (socket) => {
     io.emit('roomlist', rooms);
     socket.on('new-user', (room, name) => {
-        //console.log("i am here in server")
         socket.join(room)
         rooms[room].users[socket.id] = { name:name, score:0}
         userCount[room] += 1
@@ -92,18 +91,12 @@ io.on('connection', (socket) => {
         socket.to(room).broadcast.emit('clear', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
     })
     socket.on('validate-password', function(roomName,passcode) {
-        console.log("validate - password ")
-        
         if(rooms[roomName].password === passcode){
             socket.emit('correct-password', true)
         }else{
             socket.emit('correct-password', false)
         }
     })
-
-    /*socket.on('guess-word', function(room) {
-            
-    })*/
 
     socket.on('validate-guess-word', function(data) {
         if(data.turnId == rooms[data.room].turnId){

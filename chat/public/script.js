@@ -181,18 +181,34 @@ socket.on('user-connected', name => {
   appendMessage(`${name} connected`)
 })
 
+function canvasClear(){
+  serverClickX.splice(0, serverClickX.length)
+  serverClickY.splice(0, serverClickY.length)
+  serverClickDrag.splice(0, serverClickDrag.length)
+  
+  clickX.splice(0, clickX.length);
+  clickY.splice(0, clickY.length);
+  clickDrag.splice(0, clickDrag.length);
+  
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+  context.beginPath()
+}
 socket.on('drawer', data => {
   document.getElementById("turnId").value = data.turnId;
   if (socket.id == data.user) {
+    canvasClear();
     console.log("iam a drawer")
     displayWord.innerHTML="Draw --->  "+ data.guessWord;
     document.getElementById("guessor-block").style.visibility = "hidden";
+    document.getElementById('clearBtnDiv').style.visibility = "visible";   
     canvas.addEventListener('mousedown', mouseWins);
     canvas.addEventListener('touchstart', touchWins);
   } else {
+    canvasClear();
     console.log("iam a guessor")
     displayWord.innerHTML="";
     document.getElementById("guessor-block").style.visibility = "visible";
+    document.getElementById('clearBtnDiv').style.visibility = "hidden";   
     canvas.removeEventListener('mousedown', mouseWins);
     canvas.removeEventListener('touchstart', touchWins);
   }

@@ -162,6 +162,9 @@ function removeRaceHandlers() {
     canvas.removeEventListener('mousedown', mouseWins);
     canvas.removeEventListener('touchstart', touchWins);
 }
+canvas.addEventListener('mousedown', mouseWins);
+canvas.addEventListener('touchstart', touchWins);
+
 
 //var enable = document.getElementById('isTurn').value;
 //if(enable == 1){
