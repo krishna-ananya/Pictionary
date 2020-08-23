@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
         if(data.turnId == rooms[data.room].turnId){
             if(data.guessor_val===rooms[data.room].currentGuessWord){
                 rooms[data.room].users[data.guesser_id].score += 10
-                rooms[data.room].users[rooms[data.room].drawer[0]].score += 10
+                rooms[data.room].users[rooms[data.room].drawer[0]].score += 5
                 io.in(data.room).emit('updated-score',rooms[data.room].users)
                 socket.emit('correct-guess-word', {result: true,turnId:data.turnId})
             }else{
