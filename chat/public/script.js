@@ -202,7 +202,7 @@ socket.on('drawer', data => {
   if (socket.id == data.user) {
     canvasClear();
     console.log("iam a drawer")
-    displayWord.innerHTML="Draw --->  "+ data.guessWord;
+    displayWord.innerHTML="Your turn to draw :  "+ data.guessWord;
     document.getElementById("guessor-block").style.visibility = "hidden";
     document.getElementById('clearBtnDiv').style.visibility = "visible";   
     canvas.addEventListener('mousedown', mouseWins);
@@ -217,7 +217,7 @@ socket.on('drawer', data => {
   } else {
     canvasClear();
     console.log("iam a guessor")
-    displayWord.innerHTML="";
+    displayWord.innerHTML="Your turn to Guess";
     document.getElementById("guessor-block").style.visibility = "visible";
     document.getElementById('clearBtnDiv').style.visibility = "hidden";   
     canvas.removeEventListener('mousedown', mouseWins);
@@ -237,7 +237,7 @@ socket.on('user-disconnected', name => {
 })
 
 socket.on('updated-score', data => {
-  document.getElementById("score").innerHTML = data[socket.id].score
+  document.getElementById("scorecard").innerHTML = " Your Score is : "+data[socket.id].score
 })
 
 function appendMessage(message) {
