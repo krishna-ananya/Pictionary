@@ -207,6 +207,13 @@ socket.on('drawer', data => {
     document.getElementById('clearBtnDiv').style.visibility = "visible";   
     canvas.addEventListener('mousedown', mouseWins);
     canvas.addEventListener('touchstart', touchWins);
+
+    canvas.addEventListener('mouseup', mouseUpEventHandler);
+    canvas.addEventListener('mousemove', mouseMoveEventHandler);
+    canvas.addEventListener('mousedown', mouseDownEventHandler);
+    canvas.addEventListener('touchstart', touchstartEventHandler);
+    canvas.addEventListener('touchmove', touchMoveEventHandler);
+    canvas.addEventListener('touchend', mouseUpEventHandler);
   } else {
     canvasClear();
     console.log("iam a guessor")
@@ -215,6 +222,12 @@ socket.on('drawer', data => {
     document.getElementById('clearBtnDiv').style.visibility = "hidden";   
     canvas.removeEventListener('mousedown', mouseWins);
     canvas.removeEventListener('touchstart', touchWins);
+    canvas.removeEventListener('mouseup', mouseUpEventHandler);
+    canvas.removeEventListener('mousemove', mouseMoveEventHandler);
+    canvas.removeEventListener('mousedown', mouseDownEventHandler);
+    canvas.removeEventListener('touchstart', touchstartEventHandler);
+    canvas.removeEventListener('touchmove', touchMoveEventHandler);
+    canvas.removeEventListener('touchend', mouseUpEventHandler);
   }
 })
 
