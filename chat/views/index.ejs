@@ -103,7 +103,11 @@
             <h6 class="my-0"><%= room %></h6>
             <small class="text-muted"><%= userCount[room] %>/<%= rooms[room].players %></small>
           </div>
-          <medium class="text-muted"><a href="/<%= room %>">Join</a></medium>
+          <% if (userCount[room] <= rooms[room].players-1) { %>
+            <medium class="text-muted"><a href="/<%= room %>">Join</a></medium>
+          <%} else { %>
+            <medium class="text-muted"> Room Full </medium>
+            <% } %>
         </li>
       <% }) %>
       </ul>

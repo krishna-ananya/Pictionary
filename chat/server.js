@@ -54,6 +54,11 @@ app.get('/:room', (req,res)=>{
     if(rooms[req.params.room]==null){
         return res.redirect('/')
     }
+    // console.log("current user count"+userCount[req.params.room])
+    // console.log("room user count"+rooms[req.params.room].players)
+    // if(userCount[req.params.room] === rooms[req.params.room].players-1) {
+    //     io.emit('join-room-disable', req.params.room)
+    // }
     res.render('room', {roomName: req.params.room})
 })
 
@@ -103,6 +108,7 @@ io.on('connection', (socket) => {
             if(data.guessor_val===rooms[data.room].currentGuessWord){
                 rooms[data.room].users[data.guesser_id].score += 10
                 rooms[data.room].users[rooms[data.room].drawer[0]].score += 10
+                io.in(data.room).emit('updated-score',rooms[data.room].users)
                 socket.emit('correct-guess-word', {result: true,turnId:data.turnId})
             }else{
                 socket.emit('correct-guess-word', {result: false,turnId:data.turnId})

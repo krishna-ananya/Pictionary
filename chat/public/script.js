@@ -100,6 +100,10 @@ socket.on('room-created', room => {
   roomController.append(roomLink)
 })
 
+// socket.on('join-room-disable', room => {
+//   document.getElementById("joining").style.visibility = "hidden"
+// })
+
 serverClickX = [];
 serverClickY = [];
 serverClickDrag = [];
@@ -217,6 +221,10 @@ socket.on('drawer', data => {
 //end point for user disconnect or closing the window
 socket.on('user-disconnected', name => {
   appendMessage(`${name} disconnected`)
+})
+
+socket.on('updated-score', data => {
+  document.getElementById("score").innerHTML = data[socket.id].score
 })
 
 function appendMessage(message) {
