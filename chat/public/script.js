@@ -66,27 +66,30 @@ if (sendMessageForm != null) {
     e.preventDefault()
     $('#send-button').attr('disabled',true)
     console.log("in submit")
-    const message = messageInput.value.toLowerCase();
+    var message = messageInput.value.toLowerCase();
     document.getElementById("message-input").value = "";
     const tId = document.getElementById("turnId").value;
     console.log(tId);
-
+    if(message.length==0) {
+        $('#send-button').attr('disabled',false)
+        alert("enter guess word")
+    } else {
     socket.emit('validate-guess-word', {room:roomName, guessor_val:message, guesser_id:socket.id,turnId:tId});
-    
     socket.on('correct-guess-word', function(data){
-      if(message.length==0) {
-
-      } else if(data.result===true && tId === data.turnId){
-        console.log("Correct answer "+socket.id);
-        $('#send-button').attr('disabled',false)
-        appendMessage(`${message} is correct`)
-        socket.emit('next-drawer',{room:roomName,turnId:tId});
-      } else{
-        $('#send-button').attr('disabled',false)
-        appendMessage(`Wrong answer. Please try again`)
-        console.log(" wrong answer ")
-      }
-    })
+      if(tId === data.turnId){
+        if(data.result===true){
+          console.log("Correct answer "+socket.id);
+          $('#send-button').attr('disabled',false)
+          appendMessage(`${message} is correct`)
+          socket.emit('next-drawer',{room:roomName,turnId:tId});
+        } else{
+          $('#send-button').attr('disabled',false)
+          appendMessage(`Wrong answer. Please try again`)
+          console.log(" wrong answer ")
+        }
+    }
+    });
+  }
   });
 }
 //socket point to create the room, add to the list of rooms for user to join
