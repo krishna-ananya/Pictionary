@@ -158,6 +158,9 @@ io.on('connection', (socket) => {
             socket.to(room).broadcast.emit('user-disconnected', rooms[room].users[socket.id].name)
             userCount[room] -= 1
             delete rooms[room].users[socket.id]
+            if(userCount[room]===0){
+                delete rooms[room]
+            }
         })
     })
 })
