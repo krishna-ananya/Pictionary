@@ -155,6 +155,22 @@ io.on('connection', (socket) => {
     })
     socket.on('disconnect', ()=>{
         getUserRooms(socket).forEach(room=>{
+            if(rooms[room].drawer[0] === socket.id){
+                console.log("I was the drawer, left room")
+                rooms[room].drawer.splice(0, rooms[room].drawer.length)
+                rooms[room].drawer.push(rooms[room].guessers[0])
+                var x = rooms[room].guessers.shift()
+                guessWord = newWord()
+                rooms[room].currentGuessWord = guessWord;
+                rooms[room].turnId = Math.ceil(Math.random() * 100000 )
+                
+                // console.log("word assigned for next drawer: "+rooms[room].users[rooms[room].drawer[0]].name+" guess word: "+guessWord)
+                // console.log("drawer list "+ rooms[room].drawer )
+                // console.log("guesser length ---- "+ rooms[room].guessers.length +" guessers "+rooms[room].guessers)
+
+                io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId})
+        
+            }
             socket.to(room).broadcast.emit('user-disconnected', rooms[room].users[socket.id].name)
             userCount[room] -= 1
             delete rooms[room].users[socket.id]
