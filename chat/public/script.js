@@ -77,12 +77,16 @@ if (sendMessageForm != null) {
     socket.emit('validate-guess-word', {room:roomName, guessor_val:message, guesser_id:socket.id,turnId:tId});
     socket.on('correct-guess-word', function(data){
       if(tId === data.turnId){
-        if(data.result===true){
+        if(data.result===true && message !== ""){
           console.log("Correct answer "+socket.id);
           $('#send-button').attr('disabled',false)
           appendMessage(`${message} is correct`)
           socket.emit('next-drawer',{room:roomName,turnId:tId});
-        } else{
+        } else if(message === ""){
+          //do nothing
+          $('#send-button').attr('disabled',false)
+        } else {
+          message = ""
           $('#send-button').attr('disabled',false)
           appendMessage(`Wrong answer. Please try again`)
           console.log(" wrong answer ")
