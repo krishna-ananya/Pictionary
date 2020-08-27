@@ -1,4 +1,4 @@
-
+//const socket = io('http://18.222.217.228:3000')
 const socket = io('http://localhost:3000')
 const messageHolder = document.getElementById('message-holder')
 const roomController = document.getElementById('room-controller')
@@ -24,9 +24,9 @@ if (canvasControllerForm != null) {
     e.preventDefault()
     socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup")
   })
-  canvasControllerForm.addEventListener('touchmove', e => {
+  canvasControllerForm.addEventListener('touchstart', e => {
     e.preventDefault()
-    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"touchmove")
+    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"touchstart")
   })
 
 }
