@@ -28,6 +28,14 @@ if (canvasControllerForm != null) {
     e.preventDefault()
     socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"touchstart")
   })
+  canvasControllerForm.addEventListener('touchmove', e => {
+    e.preventDefault()
+    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"touchmove")
+  })
+  canvasControllerForm.addEventListener('touchmove', e => {
+    e.preventDefault()
+    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"touchmove")
+  })
 
 }
 
