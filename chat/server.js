@@ -13,15 +13,25 @@ const userCount = {}
 
 var guessWord;
 
-var words = [
-    "word", "letter", "number", "person", "pen", "police", "people",
-    "sound", "water", "breakfast", "place", "man", "men", "woman", "women", "boy",
-    "land", "home", "hand", "house", "picture", "animal", "mother", "father","pigeon"
-];
+var words = readFromFile('data/wordlist.txt')
 
-function newWord() {
-    wordcount = Math.floor(Math.random() * (words.length));
-    return words[wordcount];
+function newWord(room) {
+    // return "janani krishna"
+    // if the room has exhausted all the words in the dictionary reset the word used list in the room
+    if(rooms[room].wordsUsed.length === words.length){
+        rooms[room].wordsUsed = []
+    }
+    while(true){
+        wordcount = Math.floor(Math.random() * (words.length));
+        //check if the room has already used that word 
+        if(rooms[room].wordsUsed.includes(words[wordcount])){
+            continue;
+        } 
+        else {
+            rooms[room].wordsUsed.push(words[wordcount])
+            return words[wordcount];
+        }
+    }
 };
 var wordcount;
 
@@ -43,7 +53,16 @@ app.post('/room', (req, res)=>{
     if(isNaN(req.body.timer)){
         req.body.timer = 30
     }
-    rooms[req.body.room] = { users: {}, drawer : [], guessers: [] , password: req.body.password, timer: req.body.timer, players : req.body.players, drawerCount:0, currentGuessWord: ""}
+    rooms[req.body.room] = { users: {}
+                            , drawer : []
+                            , guessers: [] 
+                            , password: req.body.password
+                            , timer: req.body.timer
+                            , players : req.body.players
+                            , wordsUsed : []
+                            , rounds : 5
+                            , userList : []
+                            , currentGuessWord: ""}
     userCount[req.body.room] = 0
     res.redirect(req.body.room)
     io.emit('room-created', req.body.room)
@@ -54,11 +73,6 @@ app.get('/:room', (req,res)=>{
     if(rooms[req.params.room]==null){
         return res.redirect('/')
     }
-    // console.log("current user count"+userCount[req.params.room])
-    // console.log("room user count"+rooms[req.params.room].players)
-    // if(userCount[req.params.room] === rooms[req.params.room].players-1) {
-    //     io.emit('join-room-disable', req.params.room)
-    // }
     res.render('room', {roomName: req.params.room})
 })
 
@@ -72,20 +86,22 @@ io.on('connection', (socket) => {
     io.emit('roomlist', rooms);
     socket.on('new-user', (room, name) => {
         socket.join(room)
-        rooms[room].users[socket.id] = { name:name, score:0}
+        rooms[room].users[socket.id] = { name:name, score:0 , currentRound:0}
         userCount[room] += 1
         //console.log(rooms[room])
         //if user is the first one to join the room
         if(rooms[room].drawer.length === 0){
+            console.log("name: "+rooms[room].users[socket.id].name+", current round: "+rooms[room].users[socket.id].currentRound)
             rooms[room].drawer.push(socket.id)
-            guessWord = newWord()
+            rooms[room].userList.push(rooms[room].drawer[0])
+            guessWord = newWord(room)
             rooms[room].currentGuessWord = guessWord;
             rooms[room].turnId = Math.ceil(Math.random() * 100000 )
         } else {
             rooms[room].guessers.push(socket.id)
         }
         console.log("guess word assigned to first drawer :"+ guessWord)
-        io.in(room).emit('drawer', {room:room, user: rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId})
+        io.in(room).emit('drawer', {room:room, user: rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId, round:rooms[room].users[socket.id].currentRound})
         socket.to(room).broadcast.emit('user-connected', name)
     })
 
@@ -105,12 +121,14 @@ io.on('connection', (socket) => {
 
     socket.on('validate-guess-word', function(data) {
         if(data.turnId == rooms[data.room].turnId){
-            if(data.guessor_val===rooms[data.room].currentGuessWord){
+            if(data.guessor_val.toLowerCase() === rooms[data.room].currentGuessWord.toLowerCase()){
                 rooms[data.room].users[data.guesser_id].score += 10
                 rooms[data.room].users[rooms[data.room].drawer[0]].score += 5
                 io.in(data.room).emit('updated-score',rooms[data.room].users)
                 socket.emit('correct-guess-word', {result: true,turnId:data.turnId})
             }else{
+                console.log("correct answer "+rooms[data.room].currentGuessWord)
+                console.log("guessed word: "+data.guessor_val)
                 socket.emit('correct-guess-word', {result: false,turnId:data.turnId})
             }
         }else{
@@ -121,19 +139,25 @@ io.on('connection', (socket) => {
 
     socket.on('next-drawer', function(data){
         var room = data.room;
-
-        console.log("drawer length "+ rooms[room].drawer.length)
-        console.log("guesser length "+ rooms[room].guessers.length)
-
+        // if(completedAllRound(Object.values(rooms[room].users), rooms[room].rounds)) {
+        //     io.in(room).emit('completedGame', {ret:true, previousGameRounds: rooms[data.room].rounds})
+        // }
+        if(rooms[room].userList.length === userCount[room]){
+            console.log("house full")
+            rooms[room].users[socket.id].currentRound += 1
+            rooms[room].userList = []
+        }
         rooms[room].guessers.push(rooms[room].drawer[0])
         rooms[room].drawer.splice(0, rooms[room].drawer.length)
         rooms[room].drawer.push(rooms[room].guessers[0])
+        rooms[room].userList.push(rooms[room].drawer[0])
         var x = rooms[room].guessers.shift()
+        
+        console.log(rooms[room].userList)
 
-        //console.log("x  -" + rooms[room].users[x])
         if(data.turnId == rooms[data.room].turnId){
         
-            guessWord = newWord()
+            guessWord = newWord(data.room)
             rooms[room].currentGuessWord = guessWord;
             rooms[room].turnId = Math.ceil(Math.random() * 100000 )
             
@@ -141,7 +165,7 @@ io.on('connection', (socket) => {
             console.log("drawer list "+ rooms[room].drawer )
             console.log("guesser length ---- "+ rooms[room].guessers.length +" guessers "+rooms[room].guessers)
 
-            io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId})
+            io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord ,turnId:rooms[room].turnId, round:rooms[room].users[socket.id].currentRound})
         }else{
             console.log("blaaaaaa ");
         }
@@ -156,24 +180,23 @@ io.on('connection', (socket) => {
     socket.on('disconnect', ()=>{
         getUserRooms(socket).forEach(room=>{
             if(rooms[room].drawer[0] === socket.id){
-                console.log("I was the drawer, left room")
                 rooms[room].drawer.splice(0, rooms[room].drawer.length)
                 rooms[room].drawer.push(rooms[room].guessers[0])
                 var x = rooms[room].guessers.shift()
-                guessWord = newWord()
+                guessWord = newWord(room)
                 rooms[room].currentGuessWord = guessWord;
-                rooms[room].turnId = Math.ceil(Math.random() * 100000 )
-                
-                // console.log("word assigned for next drawer: "+rooms[room].users[rooms[room].drawer[0]].name+" guess word: "+guessWord)
-                // console.log("drawer list "+ rooms[room].drawer )
-                // console.log("guesser length ---- "+ rooms[room].guessers.length +" guessers "+rooms[room].guessers)
-
-                io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId})
+                rooms[room].turnId = Math.ceil(Math.random() * 100000 ) 
+                io.in(room).emit('drawer', {room:room, user:rooms[room].drawer[0], guessWord:guessWord,turnId:rooms[room].turnId,round:0})
         
             }
             socket.to(room).broadcast.emit('user-disconnected', rooms[room].users[socket.id].name)
             userCount[room] -= 1
             delete rooms[room].users[socket.id]
+            //remove the user from list of user in completed round list
+            if(rooms[room].userList.includes(socket.id)){
+                var index = rooms[room].userList.indexOf(socket.id);
+                rooms[room].userList.splice(index, 1);
+            }
             if(userCount[room]===0){
                 delete rooms[room]
             }
@@ -188,4 +211,12 @@ function getUserRooms(socket){
         }
         return names
     },[])
+}
+
+const completedAllRound = (users, maxRound) => users.every(v => v.currentRound === maxRound )
+
+function readFromFile(path){
+    var fs = require("fs")
+    var text = fs.readFileSync(path).toString();
+    return [...new Set(text.split('\n'))] 
 }

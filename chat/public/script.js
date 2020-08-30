@@ -206,6 +206,9 @@ function canvasClear(){
 }
 socket.on('drawer', data => {
   document.getElementById("turnId").value = data.turnId;
+  if(data.round !== 0){
+    document.getElementById("round").innerHTML = " Rounds completed: "+ data.round
+  }
   if (socket.id == data.user) {
     canvasClear();
     console.log("iam a drawer")
@@ -246,6 +249,10 @@ socket.on('user-disconnected', name => {
 socket.on('updated-score', data => {
   document.getElementById("scorecard").innerHTML = " Your Score is : "+data[socket.id].score
 })
+
+// socket.on('currentRound', round => {
+//   document.getElementById("round").innerHTML = " Rounds completed: "+ round
+// })
 
 function appendMessage(message) {
   const messageElement = document.createElement('div')
