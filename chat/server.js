@@ -105,8 +105,9 @@ io.on('connection', (socket) => {
         socket.to(room).broadcast.emit('user-connected', name)
     })
 
-    socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action)=>{
-        socket.to(room).broadcast.emit('redraw', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})
+    socket.on('drawing-on-canvas', (room, clickX, clickY, clickDrag,action,width,height)=>{
+        //console.log('here '+width+","+height);
+        socket.to(room).broadcast.emit('redraw', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,sWidth:width,sHeight:height,name: rooms[room].users[socket.id]})
     })
     socket.on('clear-canvas', (room, clickX, clickY, clickDrag,action)=>{
         socket.to(room).broadcast.emit('clear', {clickX: clickX ,clickY: clickY ,clickDrag: clickDrag , action: action,name: rooms[room].users[socket.id]})

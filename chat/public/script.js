@@ -22,7 +22,8 @@ if (canvasControllerForm != null) {
   console.log("canvas created")
   canvasControllerForm.addEventListener('mouseup', e => {
     e.preventDefault()
-    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup")
+    //console.log("server : "+context.canvas.width+","+context.canvas.height);
+    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup",context.canvas.width,context.canvas.height)
   })
   canvasControllerForm.addEventListener('touchstart', e => {
     e.preventDefault()
@@ -154,6 +155,19 @@ socket.on('redraw', data => {
   tX = `${data.clickX}`.split(",")
   tY = `${data.clickY}`.split(",")
   tDrag = `${data.clickDrag}`.split(",")
+  sWidth = parseFloat(`${data.sWidth}`)
+  sHeight = parseFloat(`${data.sHeight}`)
+  //console.log(sHeight)
+  //console.log(sWidth)
+  currentHeight = context.canvas.height;
+  currentWidth = context.canvas.width;
+  xRatio = parseFloat(currentWidth/sWidth);
+  yRatio = parseFloat(currentHeight/sHeight);
+
+  
+  //console.log("ratio is : "+xRatio)
+  //console.log("ratio is : "+yRatio)
+
   if(serverClickX.length == 0){
     
     lClickX = tX
@@ -175,21 +189,21 @@ socket.on('redraw', data => {
   serverClickY = tY
   serverClickDrag = tDrag
   
-  context.moveTo(lClickX[0], lClickY[0]);
+  context.moveTo(lClickX[0]*xRatio, lClickY[0]*yRatio);
   for (var i = 1; i < lClickX.length; i += 1) {
     if (!lclickDrag[i] && i == 0) {
       context.beginPath();
-      context.moveTo(lClickX[i], lClickY[i]);
+      context.moveTo(lClickX[i]*xRatio, lClickY[i]*yRatio);
       context.stroke();
       
     } else if (!lclickDrag[i] && i > 0) {
       context.closePath();
       
       context.beginPath();
-      context.moveTo(lClickX[i], lClickY[i]);
+      context.moveTo(lClickX[i]*xRatio, lClickY[i]*yRatio);
       context.stroke();
     } else {
-      context.lineTo(lClickX[i], lClickY[i]);
+      context.lineTo(lClickX[i]*xRatio, lClickY[i]*yRatio);
       context.stroke();
     }
   }
