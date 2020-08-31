@@ -5,7 +5,7 @@ context = canvas.getContext("2d");
 console.log(window.innerWidth)
 console.log(window.innerHeight)
 context.canvas.width  = window.innerWidth * .64
-context.canvas.height = window.innerHeight *.80
+context.canvas.height = window.innerWidth *.64
 context.strokeStyle = "#ff0000";
 context.lineJoin = "round";
 context.lineWidth = 5;
