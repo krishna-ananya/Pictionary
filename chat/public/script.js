@@ -1,5 +1,5 @@
-//const socket = io('http://18.222.217.228:3000')
-const socket = io('http://localhost:3000')
+const socket = io('http://18.222.217.228:3000')
+//const socket = io('http://localhost:3000')
 const messageHolder = document.getElementById('message-holder')
 const roomController = document.getElementById('room-controller')
 const sendMessageForm = document.getElementById('send-controller')
