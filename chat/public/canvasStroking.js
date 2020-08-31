@@ -2,12 +2,7 @@
 var context = document.getElementById('sheet').getContext("2d");
 var canvas = document.getElementById('sheet');
 context = canvas.getContext("2d");
-var w = 0
-if(window.innerWidth < window.innerHeight)
-    w = window.innerWidth;
-else
-    w = window.innerHeight;
-
+var w = window.innerWidth;
 context.canvas.width  = w * .64
 context.canvas.height = w * .64
 context.strokeStyle = "#ff0000";
