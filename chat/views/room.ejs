@@ -6,8 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Chat Place</title>
         <script>const roomName= "<%= roomName %>"</script>
-        <script defer src ="http://18.222.217.228:3000/socket.io/socket.io.js "></script> 
-        <!-- <script defer src="http://localhost:3000/socket.io/socket.io.js"></script> -->
+        <script defer src ="http://18.222.217.228:3000/socket.io/socket.io.js "></script> <!-- 
+        <script defer src="http://localhost:3000/socket.io/socket.io.js"></script> -->
         <script defer src="canvasStroking.js"></script>
         <script defer src="script.js"></script>
         <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -27,8 +27,6 @@
         <style>
         #sheet {
             border: 1px solid black;
-            /*width: 90vh;
-            height: 80vh; */
         }
         /* set padding and size of th form */
         .form-container{
@@ -107,7 +105,21 @@
     <div style="margin-top:1%"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class = "col-8">
+           <div class = "col" style="border:1px; border-color:gray;">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Players</span>
+                    <span class="badge badge-secondary badge-pill">5</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                      <div>
+                        <h6 class="my-0">Player 1</h6>
+                        <large class="text-muted">45</large>
+                      </div>
+                    </li>
+                </ul>
+            </div>
+            <div class = "col-6 order-2">
                 <div id="canvasDiv"> 
                     <form id ="draw-controller">
                         <canvas id="sheet" ></canvas>
@@ -119,7 +131,8 @@
                     </form>
                 </div>
             </div>
-            <div class = "col-4">
+            <div class = "col col-md order-3">
+                <div id="timer"> </div>
                 <div id="guessWord"></div>
                 <div id="round"></div>
                 <div id="scorecard">Your Score is :0</div>
