@@ -3,13 +3,19 @@ var context = document.getElementById('sheet').getContext("2d");
 var canvas = document.getElementById('sheet');
 context = canvas.getContext("2d");
 var w = window.innerWidth;
-if(window.innerWidth < window.innerHeight)
-    w = window.innerWidth;
-else
-    w = window.innerHeight;
+var h = window.innerHeight;
 
-context.canvas.width  = w * .64
-context.canvas.height = w * .64
+if(window.innerWidth < window.innerHeight){    
+    w = window.innerWidth *.64;
+    h = window.innerWidth *.64;
+}
+else{
+    w = window.innerHeight;
+    h = window.innerHeight;
+}
+
+context.canvas.width  = w;
+context.canvas.height = h;
 context.strokeStyle = "#ff0000";
 context.lineJoin = "round";
 context.lineWidth = 5;
