@@ -3,6 +3,11 @@ var context = document.getElementById('sheet').getContext("2d");
 var canvas = document.getElementById('sheet');
 context = canvas.getContext("2d");
 var w = window.innerWidth;
+if(window.innerWidth < window.innerHeight)
+    w = window.innerWidth;
+else
+    w = window.innerHeight;
+
 context.canvas.width  = w * .64
 context.canvas.height = w * .64
 context.strokeStyle = "#ff0000";
