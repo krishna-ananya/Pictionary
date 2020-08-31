@@ -10,10 +10,14 @@ if(window.innerWidth < window.innerHeight){
     h = window.innerWidth *.64;
 }
 else{
-    w = window.innerHeight;
-    h = window.innerHeight;
+    w = window.innerHeight *.75
+    h = window.innerHeight *.75
 }
 
+canvas.ontouchstart = function(e) {
+  if (e.touches) e = e.touches[0];
+  return false;
+}
 context.canvas.width  = w;
 context.canvas.height = h;
 context.strokeStyle = "#ff0000";

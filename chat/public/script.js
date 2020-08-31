@@ -22,17 +22,8 @@ if (canvasControllerForm != null) {
   console.log("canvas created")
   canvasControllerForm.addEventListener('mouseup', e => {
     e.preventDefault()
-    //console.log("server : "+context.canvas.width+","+context.canvas.height);
     socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"mouseup",context.canvas.width,context.canvas.height)
   })
-  /*canvasControllerForm.addEventListener('touchstart', e => {
-    e.preventDefault()
-    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"touchstart",context.canvas.width,context.canvas.height)
-  })
-  canvasControllerForm.addEventListener('touchmove', e => {
-    e.preventDefault()
-    socket.emit('drawing-on-canvas', roomName , clickX, clickY, clickDrag,"touchmove",context.canvas.width,context.canvas.height)
-  })*/
 
   canvasControllerForm.addEventListener('touchend', e => {
     e.preventDefault()
