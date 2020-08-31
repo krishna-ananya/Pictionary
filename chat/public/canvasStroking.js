@@ -2,10 +2,14 @@
 var context = document.getElementById('sheet').getContext("2d");
 var canvas = document.getElementById('sheet');
 context = canvas.getContext("2d");
-console.log(window.innerWidth)
-console.log(window.innerHeight)
-context.canvas.width  = window.innerWidth * .64
-context.canvas.height = window.innerWidth *.64
+var w = 0
+if(window.innerWidth < window.innerHeight)
+    w = window.innerWidth;
+else
+    w = window.innerHeight;
+
+context.canvas.width  = w * .64
+context.canvas.height = w * .64
 context.strokeStyle = "#ff0000";
 context.lineJoin = "round";
 context.lineWidth = 5;
