@@ -8,9 +8,7 @@ Sunburn
 Time machine
 Lace
 Monday
-Atlantis
 Swamp
-Panama Canal
 Sunscreen
 Dictionary
 Vanilla
@@ -29,26 +27,18 @@ Catch
 Study
 Mailman
 Superman
-Justin Beiber
 Cowboy 
-Alexander Hamilton
-Robin Hood
 Vampire
 Pirate
-Girl Scout
 Pikachu
 Spongebob
-Baby Yoda
 Pilgrim
 Cinderella
 Baker
-Abe Lincoln
 Thief
 Leprechaun
 Harry Potter
 Shrek
-Yoshi
-Queen Elizabeth
 Giraffe
 Koala
 Wasp
@@ -65,21 +55,14 @@ Eagle
 Paris
 Beach
 Mountains
-Hawaii
-Mount Rushmore
-USA
 Hospital
 Attic
-Japan
 Library
 Desert
 Mars
-Washington DC
-Las Vegas
 Train station
 North Pole
 Farm
-Disney World
 Mexico
 Strawberry
 Eclipse
@@ -143,7 +126,6 @@ Lady bug
 Sun
 Camera
 Lamp
-Tire
 Cat
 Lion
 Toast
@@ -161,7 +143,6 @@ Olympics
 Volleyball
 Eiffel Tower
 Peanut
-Abraham Lincoln 
 Kiss
 Pigtails
 Brain
@@ -169,21 +150,18 @@ Kitten
 Playground
 Bubble bath
 Kiwi
-Pumpkin pie
 Buckle
 Lipstick
 Raindrop
 Bus
 Lobster
 Robot
-Car accident
 Lollipop
 Sand castle
 Castle
 Magnet
 Slipper
 Chain saw
-Megaphone
 Snowball
 Circus tent
 Mermaid
@@ -192,7 +170,6 @@ Computer
 Minivan
 Statue of Liberty
 Crib
-Mount Rushmore
 Tadpole
 Dragon
 Music
@@ -200,7 +177,6 @@ Teepee
 Dumbbell
 North pole
 Telescope
-Eel
 Nurse
 Train
 Ferris wheel
@@ -208,7 +184,6 @@ Owl
 Tricycle
 Flag
 Pacifier
-Tutu
 Junk mail
 Piano
 Attic   
@@ -230,9 +205,7 @@ Burrito
 Koala
 Skip
 Captain
-Leprechaun
 Solar eclipse
-Chandelier
 Light
 Space
 Crib
@@ -245,20 +218,15 @@ Dance
 Mom
 Sunburn
 Deodorant
-Mr Potato Head
 Thread
-Facebook
-Pantyhose
 Tourist
 Flat
 Paper plate
-United States
 Frame
 Photo
 WiFi
 Full moon
 Pilgram
-Zombie
 Game
 Pirate
 cheese
@@ -364,13 +332,11 @@ door
 clog
 chestnut
 commercial
-Atlantis
 mine
 comfy
 ironic
 implode
 lie
-philosopher
 hang
 vision
 dorsal
@@ -384,9 +350,6 @@ important
 retail
 laser
 crisp
-overture
-blacksmith
-ditch
 exercise
 mime
 pastry
@@ -396,24 +359,19 @@ stowaway
 opaque
 drought
 shrew
-tinting
-mooch
 lyrics
 neutron
 stockholder
-flotsam
 cartography
 ice fishing
 eureka
 darkness
 dripping
 wobble
-brunette
 rubber
 tutor
 migrate
 myth
-psychologist
 quarantine
 slump
 landfill
@@ -421,7 +379,6 @@ diagonal
 inquisition
 husband
 ten
-exponential
 neighborhood
 jazz
 catalog
@@ -430,7 +387,6 @@ snag
 acre
 protestant
 random
-twang
 flutter
 fireside
 clue
@@ -448,9 +404,6 @@ century
 bookend
 drawback
 fabric
-siesta
-aristocrat
-addendum
 rainwater
 barber
 scream
@@ -563,30 +516,18 @@ camera
 snowflake
 picture frame
 gel
-leg warmers
 paint brush
-bath fizzers
-drill press
 chalk
-rubber duck
-wireless control
-word search
 spring
 stone
 rug
 thermometer
-stockings
 CD
-fake flowers
-model car
-check book
 vase
 hanger
 cookie jar
 speakers
 screw
-grid paper
-boom box
 glasses
 sailboat
 tooth pick
@@ -597,16 +538,12 @@ clay pot
 thread
 bow
 flag
-plastic fork
-scotch tape
 lamp shade
 sketch pad
 tissue box
 balloon
 shoe lace
 needle
-chandelier
-deodorant
 button
 sticky note
 candy wrapper
@@ -628,8 +565,6 @@ seat belt
 mouse pad
 tire swing
 nail filer
-tampon
-condom
 cork
 stop sign
 rusty nail
@@ -661,106 +596,6 @@ hair tie
 charger
 blouse
 card
-Pablo Picasso
-Simon Bolivar
-Mary Magdalene
-Queen Victoria
-J.K. Rowling
-Lord Baden Powell
-Rosa Parks
-Babe Ruth
-Katherine Hepburn
-Joseph Stalin
-Nelson Mandela
-Bill Cosby
-Amelia Earhart
-Adolf Hitler
-Audrey Hepburn
-Mother Teresa
-Peter Sellers
-Billie Jean King
-Margaret Thatcher
-J.R.R. Tolkien
-Prince Charles
-Lionel Messi
-Oprah Winfrey
-Vincent Van Gogh
-Muhammad Ali
-Steve Jobs
-Richard Branson
-Thomas Edison
-George Bush jnr
-Usain Bolt
-Ludwig Beethoven
-Leonardo da Vinci
-Plato
-Michael Jackson
-Pope Francis
-Lyndon Johnson
-Tom Cruise
-Mikhail Gorbachev
-Aung San Suu Kyi
-Charles de Gaulle
-Anne Frank
-Albert Einstein
-Henry Ford
-John M Keynes
-Pele
-Leo Tolstoy
-Michael Jordon
-Malcolm X
-Eva Peron
-Carl Lewis
-Martin Luther King
-Christopher Columbus
-Woodrow Wilson
-Jesse Owens
-Pope John Paul II
-Mahatma Gandhi
-Benazir Bhutto
-Tiger Woods
-Paul McCartney
-Neil Armstrong
-Charles Darwin
-Marilyn Monroe
-Roger Federer
-Mao Zedong
-George Orwell
-John Lennon
-Winston Churchill
-Desmond Tutu
-Coco Chanel
-Madonna
-Leon Trotsky
-Cleopatra
-Billie Holiday
-Louis Pasteur
-Elvis Presley
-Jacqueline Kennedy Onassis
-Sting
-Ronald Reagan
-Walt Disney
-Abraham Lincoln
-Mata Hari
-John F. Kennedy
-Barack Obama
-Ernest Hemingway
-Sigmund Freud
-Bill Gates
-Alfred Hitchcock
-Haile Selassie
-Queen Elizabeth II
-Jawaharlal Nehru
-Franklin D. Roosevelt
-Indira Gandhi
-David Beckham
-Vladimir Putin
-Fidel Castro
-Dalai Lama
-Bob Geldof
-V. Lenin
-C.S. Lewis
-Oscar Wilde
 cat
 sun
 cup
@@ -1178,13 +1013,11 @@ bedbug
 bobsled
 hot tub
 firefighter
-cell phone charger
 beanstalk
 nightmare
 coach
 moth
 sneeze
-wooly mammoth
 pigpen
 swarm
 goblin
@@ -1192,7 +1025,6 @@ chef
 applause
 wax
 sheep dog
-s'mores
 plow
 runt
 vision
@@ -1204,24 +1036,16 @@ kilogram
 neutron
 stow
 away
-psychologist
-exponential
-aristocrat
 eureka
 parody
-cartography
 figment
-philosopher
-tinting
 overture
 opaque
-Everglades
 ironic
 zero
 landfill
 implode
 czar
-armada
 crisp
 stockholder
 inquisition
@@ -1229,12 +1053,9 @@ mooch
 gallop
 archaeologist
 blacksmith
-addendum
 upgrade
-hang ten
 acre
 twang
-mine car
 protestant
 brunette
 stout
@@ -1244,7 +1065,6 @@ positive
 champion
 pastry
 tournament
-Chick-fil-A
 rainwater
 random
 lyrics
@@ -1253,6 +1073,4 @@ clue
 flutter
 slump
 ligament
-flotsam
-siesta
 pomp
