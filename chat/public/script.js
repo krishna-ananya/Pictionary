@@ -1,5 +1,5 @@
-const socket = io('http://18.222.217.228:3000')
-//const socket = io('http://localhost:3000')
+//const socket = io('http://18.222.217.228:3000')
+const socket = io('http://localhost:3000')
 const messageHolder = document.getElementById('message-holder')
 const roomController = document.getElementById('room-controller')
 const sendMessageForm = document.getElementById('send-controller')
@@ -223,6 +223,18 @@ function canvasClear(){
   context.clearRect(0, 0, context.canvas.width, context.canvas.height)
   context.beginPath()
 }
+
+function fillBlanks(word){
+  var result =""
+  for(var i = 0; i< word.length;i++){
+     if(word.charAt(i) != " "){
+          result = result+"_ ";
+     }else{
+            result = result+"  ";
+     }
+  }
+  return result;
+}
 socket.on('drawer', data => {
   document.getElementById("turnId").value = data.turnId;
   if(data.round !== 0){
@@ -246,7 +258,7 @@ socket.on('drawer', data => {
   } else {
     canvasClear();
     console.log("iam a guessor")
-    displayWord.innerHTML="Your turn to Guess";
+    displayWord.innerHTML="Your turn to Guess : "+fillBlanks(data.guessWord);
     document.getElementById("guessor-block").style.visibility = "visible";
     document.getElementById('clearBtnDiv').style.visibility = "hidden";   
     canvas.removeEventListener('mousedown', mouseWins);
