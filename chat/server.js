@@ -1,7 +1,19 @@
+var https = require('https');
+var fs = require('fs');
+
 var express = require('express')
 var app  = express()
-var http = require('http').Server(app)
-var io = require('socket.io')(http)
+//var http = require('http').Server(app)
+
+
+const options = {
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem')
+};
+
+var serverPort =3000;
+var server = https.createServer(options, app);
+var io = require('socket.io')(server)
 
 app.set('views', './views')
 app.set('view engine','ejs')
@@ -76,9 +88,9 @@ app.get('/:room', (req,res)=>{
     res.render('room', {roomName: req.params.room})
 })
 
-//port that server listens on: 3000
-http.listen(3000, ()=>{
-    console.log('listening to port 3000')
+//port that server listens on: 8080
+server.listen(serverPort, ()=>{
+    console.log('listening to port 8080')
 })
 
 //messaging action between users, broadcast chat message to other users in the room 
