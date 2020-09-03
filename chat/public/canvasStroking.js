@@ -20,9 +20,9 @@ canvas.ontouchstart = function(e) {
 }
 context.canvas.width  = w;
 context.canvas.height = h;
-context.strokeStyle = "#ff0000";
+context.strokeStyle = "#000000";
 context.lineJoin = "round";
-context.lineWidth = 5;
+context.lineWidth = 2;
 
 var clickX = [];
 var clickY = [];

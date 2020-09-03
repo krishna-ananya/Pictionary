@@ -47,7 +47,8 @@ if(userVerifyForm != null){
     socket.on('correct-password',function(ret){
       if(ret === true){
         socket.emit('new-user', roomName, name)
-        appendMessage('You joined')
+        ///appendMessage('You joined')
+        appendPlayers(name,0);
         console.log("user added ")
         $("#userDialog").modal('hide');        
         $("#room-entry").attr("disabled", false);
@@ -208,7 +209,9 @@ socket.on('chat-message', data => {
 
 //end point for user connection
 socket.on('user-connected', name => {
-  appendMessage(`${name} connected`)
+  //console.log("here");
+  appendPlayers(`${name}`,0);
+ // appendMessage(`${name} connected`)
 })
 
 function canvasClear(){
@@ -278,10 +281,29 @@ socket.on('user-disconnected', name => {
 })
 
 socket.on('updated-score', data => {
-  for(item in data){
-    console.log(item)
-;  }
-  document.getElementById("scorecard").innerHTML = " Your Score is : "+data[socket.id].score
+  document.getElementById("scoreList").innerHTML ="";
+  var divList = document.getElementById("scoreList");
+  var ul = document.createElement("ul");
+  ul.id = "playerList"
+  ul.className ="list-group mb-3"
+  var count = 0;
+  for(item in data){ 
+    count = count + 1;
+    var li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between lh-condensed"
+    var h6 = document.createElement("h6");
+    h6.className = "my-0"
+    h6.appendChild(document.createTextNode(data[item].name))
+    var large = document.createElement("large");
+    large.className = "text-muted"
+    large.appendChild(document.createTextNode(data[item].score))
+    li.appendChild(h6);
+    li.appendChild(large);
+    ul.appendChild(li);
+  }
+  divList.appendChild(ul);
+  document.getElementById("playerCount").innerHTML = count;
+  //document.getElementById("scorecard").innerHTML = " Your Score is : "+data[socket.id].score
 })
 
 // socket.on('currentRound', round => {
@@ -299,4 +321,30 @@ function visibilityElement(ele) {
   if (window.getComputedStyle(x).visibility === "hidden") {
     return true;
   }
+}
+
+function appendPlayers(name,score){
+
+  var divList = document.getElementById("scoreList");
+  console.log("hi from append players");
+  var ul = document.getElementById('playerList');
+  if(ul == null){
+    ul = document.createElement("ul");
+    ul.id = "playerList"
+    ul.className ="list-group mb-3"
+  }
+  var li = document.createElement("li");
+  li.className = "list-group-item d-flex justify-content-between lh-condensed"
+  var h6 = document.createElement("h6");
+  h6.className = "my-0"
+  h6.appendChild(document.createTextNode(name))
+  var large = document.createElement("large");
+  large.className = "text-muted"
+  large.appendChild(document.createTextNode(score))
+  li.appendChild(h6);
+  li.appendChild(large);
+  ul.appendChild(li);
+  divList.appendChild(ul);
+  var count = document.getElementById("playerCount").innerHTML;
+  document.getElementById("playerCount").innerHTML = parseInt(count) + 1;
 }
