@@ -1,5 +1,5 @@
-const socket = io('http://18.222.217.228:3000')
-//const socket = io('https://localhost:3000')
+//const socket = io('http://18.222.217.228:3000')
+const socket = io('https://localhost:3000')
 const messageHolder = document.getElementById('message-holder')
 const roomController = document.getElementById('room-controller')
 const sendMessageForm = document.getElementById('send-controller')
@@ -278,6 +278,9 @@ socket.on('user-disconnected', name => {
 })
 
 socket.on('updated-score', data => {
+  for(item in data){
+    console.log(item)
+;  }
   document.getElementById("scorecard").innerHTML = " Your Score is : "+data[socket.id].score
 })
 
